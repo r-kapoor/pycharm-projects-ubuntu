@@ -41,3 +41,7 @@ def classification_script_1(pos_neg_file):
 path = os.path.dirname(os.path.abspath(__file__)) + '\\annotated-cities-trial\\'
 data_preparation_script_1(path+'annotated-cities-1.json', path+'unigram-part-00000-v2.json','high_recall_readability_text', 'annotated_cities', 'correct_cities', path+'output_folder/')
 classification_script_1(path+'output_folder/pos-neg-file.txt')
+
+# data_preparation_script_1(path+'annotated-cities-1.json', path+'unigram-part-00000-v2.json',
+#                           'high_recall_readability_text', 'annotated_cities', 'correct_cities', path+'output_folder/')
+# classification_script_1(path+'pos-neg-annotated-cities-2.txt')
