@@ -43,5 +43,8 @@ data_preparation_script_1(path+'annotations_with_alt_26-50.json', path+'unigram-
 classification_script_1(path+'output_folder/pos-neg-file.txt')
 
 # data_preparation_script_1(path+'annotated-cities-1.json', path+'unigram-part-00000-v2.json',
+# path = '/Users/mayankkejriwal/ubuntu-vm-stuff/home/mayankkejriwal/tmp/annotated-cities-trial/'
+# path = '/Users/mayankkejriwal/ubuntu-vm-stuff/home/mayankkejriwal/Downloads/memex-cp4-october/supervised-exp-datasets/'
+# data_preparation_script_1(path+'annotated-cities-2.json', path+'unigram-part-00000-v2.json',
 #                           'high_recall_readability_text', 'annotated_cities', 'correct_cities', path+'output_folder/')
-# classification_script_1(path+'pos-neg-annotated-cities-2.txt')
+# classification_script_1(path+'output_folder/pos-neg-file.txt')
