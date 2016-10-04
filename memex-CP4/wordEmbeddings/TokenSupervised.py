@@ -432,6 +432,24 @@ class TokenSupervised:
 
 
     @staticmethod
+    def _select_k_best_features_with_no_testdata(data_dict, k=10):
+        """
+        Do feature selection. Transforms data_dict
+        :param data_dict:
+        :param k: the number of features to select
+        :return: None
+        """
+        print ">>Select K Best With No Testdata<<"
+        
+        kBest = SelectKBest(f_classif, k=k)
+        kBest = kBest.fit(data_dict['train_data'], data_dict['train_labels'])
+        data_matrix = data_dict['train_data']
+        label_matrix = data_dict['train_labels']
+        new_data_matrix = kBest.fit_transform(data_matrix, label_matrix)
+        data_dict['train_data'] = new_data_matrix
+        return kBest
+
+    @staticmethod
     def _select_k_best_features(data_dict, k=10, test_data_visible=False):
         """
         Do feature selection. Transforms data_dict
@@ -546,7 +564,37 @@ class TokenSupervised:
         # print new_data
         return np.append(list_of_vectors, new_data, axis=0)
 
+    @staticmethod
+    def _prepare_all_data_as_train(pos_neg_file):
+        """
 
+        :param pos_neg_file:
+        :return: dictionary containing training/testing data/labels
+        """
+        print ">>Prepare All Data as Training Data<<"
+        if pos_neg_file:
+            data = TokenSupervised._prepare_for_ML_classification(pos_neg_file)
+        else:
+            raise Exception('No pos_neg_file is specified. Exiting.')
+
+        train_pos_num = len(data[1])
+        train_neg_num = len(data[0])
+
+        train_data_pos = data[1]
+        train_data_neg = data[0]
+
+        train_labels_pos = [[1] * train_pos_num]
+        train_labels_neg = [[0] * train_neg_num]
+
+        train_data = np.append(train_data_pos, train_data_neg, axis=0)
+        train_labels = np.append(train_labels_pos, train_labels_neg)
+
+        results = dict()
+        results['train_data'] = train_data
+        results['train_labels'] = train_labels
+        
+        return results
+    
     @staticmethod
     def _prepare_train_test_data(pos_neg_file, train_percent = 0.3, randomize=True, balanced_training=True,
                                  data_vectors=None):
@@ -849,7 +897,7 @@ class TokenSupervised:
         print len(predicted_probabilities)        
 
     @staticmethod
-    def _train_classifier(train_data, train_labels, test_data, test_labels, classifier_model):
+    def _train_classifier(train_data, train_labels, classifier_model):
         """
         Take three numpy matrices and compute a bunch of metrics. Hyperparameters must be changed manually,
         we do not take them in as input.
@@ -1002,15 +1050,19 @@ class TokenSupervised:
             #Test Set 1: read in data from pos_neg_file and use classifiers from scikit-learn/manual impl.
             #We do NOT do any kind of feature selection.
 
-            data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
+            #data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
+            data_dict = TokenSupervised._prepare_all_data_as_train(pos_neg_file)
             # print data_dict['train_labels'][0]
             data_dict['classifier_model'] = 'manual_knn'
             model = TokenSupervised._train_classifier(**data_dict)
         elif opt == 2:
             #Test Set 2: read in data from pos_neg_file and use classifiers from scikit-learn/manual impl.
             #We do feature selection.
-            data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
-            model_dict['k_best'] = TokenSupervised._select_k_best_features(data_dict, k=20)
+            
+            #data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
+            data_dict = TokenSupervised._prepare_all_data_as_train(pos_neg_file)
+            #model_dict['k_best'] = TokenSupervised._select_k_best_features(data_dict, k=20)
+            model_dict['k_best'] = TokenSupervised._select_k_best_features_with_no_testdata(data_dict, k=20)
             data_dict['classifier_model'] = 'random_forest'
             model_dict['model'] = TokenSupervised._train_classifier(**data_dict)
         return model_dict
