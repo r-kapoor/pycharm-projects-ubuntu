@@ -381,8 +381,8 @@ class TokenSupervised:
                 else:
                     print 'error; label not recognized'
         # print np.matrix(pos_features)
-        result[0] = TokenSupervised._l2_norm_on_matrix(np.matrix(pos_features))
-        result[1] = TokenSupervised._l2_norm_on_matrix(np.matrix(neg_features))
+        result[0] = TokenSupervised._l2_norm_on_matrix(np.matrix(neg_features))
+        result[1] = TokenSupervised._l2_norm_on_matrix(np.matrix(pos_features))
         return result
 
     @staticmethod
@@ -425,12 +425,10 @@ class TokenSupervised:
         :return: None
         """
         print ">>Select Same K Best<<"
-        train_len = len(data_dict['train_data'])
         data_matrix = data_dict['test_data']
         label_matrix = data_dict['test_labels']
         new_data_matrix = kBest.fit_transform(data_matrix, label_matrix)
-        data_dict['train_data'] = new_data_matrix[0:train_len]
-        data_dict['test_data'] = new_data_matrix[train_len:]
+        data_dict['test_data'] = new_data_matrix
 
 
     @staticmethod
@@ -633,8 +631,7 @@ class TokenSupervised:
         return results
 
     @staticmethod
-    def _prepare_actual_data(pos_neg_file, train_percent = 0.0, randomize=True, balanced_training=True,
-                                 data_vectors=None):
+    def _prepare_actual_data(pos_neg_file):
         """
 
         :param pos_neg_file:
@@ -651,14 +648,10 @@ class TokenSupervised:
         print ">>Prepare Actual Data<<"
         if pos_neg_file:
             data = TokenSupervised._prepare_actual_data_for_ML_classification(pos_neg_file)
-        elif data_vectors:
-            data = data_vectors
         else:
-            raise Exception('Neither pos_neg_file nor data_vectors argument is specified. Exiting.')
+            raise Exception('No pos_neg_file specified. Exiting.')
 
         results = dict()
-        results['train_data'] = []
-        results['train_labels'] = []
         results['test_data'] = data[0]
         results['test_labels'] = data[1]
         results['words'] = data[2]
@@ -821,7 +814,7 @@ class TokenSupervised:
         return predicted_probs
 
     @staticmethod
-    def _classify(model, train_data, train_labels, test_data, test_labels, words, line_num, classifier_model):
+    def _classify(model, test_data, test_labels, words, line_num, classifier_model):
         """
         Take three numpy matrices and compute a bunch of metrics. Hyperparameters must be changed manually,
         we do not take them in as input.
@@ -843,7 +836,7 @@ class TokenSupervised:
         curr_line_num = 0
         curr_string = ""
         for i in range(1,len(words)):
-            if(predicted_labels[i] == 0):
+            if(predicted_labels[i] == 1):
                 curr_string += words[i] + ":" + str(predicted_labels[i]) + ","
             if(line_num[i]>curr_line_num):
                 print "{}: {}".format(line_num[i], curr_string)

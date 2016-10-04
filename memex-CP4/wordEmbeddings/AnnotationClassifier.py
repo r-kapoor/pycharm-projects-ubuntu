@@ -65,6 +65,7 @@ def classification_script(pos_neg_file_training, pos_neg_file_actual_data):
     :return: None
     """
     print ">>Clasification Script<<"
+    TokenSupervised.TokenSupervised.trial_script_binary(pos_neg_file_training)
     model = TokenSupervised.TokenSupervised.extract_model(pos_neg_file_training)
     TokenSupervised.TokenSupervised.classify_data(model, pos_neg_file_actual_data)
 
