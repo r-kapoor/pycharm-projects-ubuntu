@@ -128,6 +128,53 @@ class TokenSupervised:
                             out.write(word + '\t' + str(context_vec) + '\t1\n')
                         else:
                             out.write(word + '\t' + str(context_vec) + '\t0\n')
+
+        out.close()
+
+    @staticmethod
+    def prep_preprocessed_actual_file_for_classification(preprocessed_file, embeddings_file,
+                                            output_file, context_generator, text_field, annotated_field):
+        """
+        Meant for prepping a preprocessed annotated tokens file (e.g. a file output by  into something that is
+        amenable to the ML experiments such as in supervised-exp-datasets.
+
+        We also support multi-word annotations.
+        :param preprocessed_file:
+        :param embeddings_file:
+        :param output_file:
+        :param context_generator: a function in ContextVectorGenerator that will be used for taking a word from
+        the text field (e.g.high_recall_readability_text)and generating a context vector based on some notion of context
+        :param text_field: e.g. 'high_recall_readability_text'
+        :param: annotated_field: e.g. 'annotated_cities'
+        :return: None
+        """
+        full_embeddings = kNearestNeighbors.read_in_embeddings(embeddings_file)
+        # embeddings = set(full_embeddings.keys())
+        out = codecs.open(output_file, 'w', 'utf-8')
+        with codecs.open(preprocessed_file, 'r', 'utf-8') as f:
+            for index,line in enumerate(f):
+                obj = json.loads(line)
+                for word in obj[annotated_field]:
+                    word_tokens = TextPreprocessors.TextPreprocessors.tokenize_string(word)
+                    if len(word_tokens) <= 1: # we're dealing with a single word
+                        if word not in obj[text_field]:
+                            print 'skipping word not found in text field: ',
+                            print word
+                            continue
+                        context_vecs = context_generator(word, obj[text_field], full_embeddings)
+                    elif TextPreprocessors.TextPreprocessors.is_sublist_in_big_list(obj[text_field], word_tokens):
+                        context_vecs = context_generator(word, obj[text_field], full_embeddings, multi=True)
+                    else:
+                        continue
+
+
+                    if not context_vecs:
+                        print 'context_generator did not return anything for word: ',
+                        print word
+                        continue
+                    for context_vec in context_vecs:
+                        out.write(word + '\t' + str(context_vec) + '\t0' + '\t'+str(index)+'\n')
+
         out.close()
 
     @staticmethod
@@ -334,9 +381,57 @@ class TokenSupervised:
                 else:
                     print 'error; label not recognized'
         # print np.matrix(pos_features)
-        result[0] = TokenSupervised._l2_norm_on_matrix(np.matrix(neg_features))
-        result[1] = TokenSupervised._l2_norm_on_matrix(np.matrix(pos_features))
+        result[0] = TokenSupervised._l2_norm_on_matrix(np.matrix(pos_features))
+        result[1] = TokenSupervised._l2_norm_on_matrix(np.matrix(neg_features))
         return result
+
+    @staticmethod
+    def _prepare_actual_data_for_ML_classification(pos_neg_file):
+        """
+        We need to read in embeddings
+        :param pos_neg_file: The file generated in one of the preprocess_filtered_* files
+        :return: A dictionary where a 0,1 label references a numpy matrix.
+        """
+        result = dict()
+        features = list()
+        words = list()
+        labels = list()
+        line_num = list()
+        with codecs.open(pos_neg_file, 'r', 'utf-8') as f:
+            for line in f:
+                line = line[0:-1]
+                cols = re.split('\t',line)
+                # print list(cols[1])
+                # break
+                features.append(TokenSupervised._convert_string_to_float_list(cols[1]))
+                words.append(cols[0])
+                labels.append(0)
+                line_num.append(cols[3])
+
+        result[0] = TokenSupervised._l2_norm_on_matrix(np.matrix(features))
+        result[2] = words
+        result[1] = labels
+        result[3] = line_num
+        return result
+
+    @staticmethod
+    def _select_same_k_best(kBest, data_dict):
+        """
+        Do feature selection. Transforms data_dict
+        :param data_dict:
+        :param k: the number of features to select
+        :param test_data_visible: use the complete dataset to do feature selection. Otherwise, use only
+        the training data, but then fit_transform the entire dataset.
+        :return: None
+        """
+        print ">>Select Same K Best<<"
+        train_len = len(data_dict['train_data'])
+        data_matrix = data_dict['test_data']
+        label_matrix = data_dict['test_labels']
+        new_data_matrix = kBest.fit_transform(data_matrix, label_matrix)
+        data_dict['train_data'] = new_data_matrix[0:train_len]
+        data_dict['test_data'] = new_data_matrix[train_len:]
+
 
     @staticmethod
     def _select_k_best_features(data_dict, k=10, test_data_visible=False):
@@ -348,6 +443,7 @@ class TokenSupervised:
         the training data, but then fit_transform the entire dataset.
         :return: None
         """
+        print ">>Select K Best<<"
         if test_data_visible:
             train_len = len(data_dict['train_data'])
             # test_len = len(data_dict['test_data'])
@@ -369,6 +465,7 @@ class TokenSupervised:
             new_data_matrix = kBest.fit_transform(data_matrix, label_matrix)
             data_dict['train_data'] = new_data_matrix[0:train_len]
             data_dict['test_data'] = new_data_matrix[train_len:]
+        return kBest
 
     @staticmethod
     def _select_k_best_features_multi(data_dict, k=10, test_data_visible=False):
@@ -468,6 +565,7 @@ class TokenSupervised:
         that we can re-use this function by invoking it from some of the other _prepare_ files.
         :return: dictionary containing training/testing data/labels
         """
+        print ">>Prepare Train Test Data<<"
         if pos_neg_file:
             data = TokenSupervised._prepare_for_ML_classification(pos_neg_file)
         elif data_vectors:
@@ -531,6 +629,40 @@ class TokenSupervised:
         results['train_labels'] = train_labels
         results['test_data'] = test_data
         results['test_labels'] = test_labels
+
+        return results
+
+    @staticmethod
+    def _prepare_actual_data(pos_neg_file, train_percent = 0.0, randomize=True, balanced_training=True,
+                                 data_vectors=None):
+        """
+
+        :param pos_neg_file:
+        :param train_percent:
+        :param randomize: If true, we'll randomize the data we're reading in from pos_neg_file. Otherwise, the initial
+        train_percent fraction goes into the training data and the rest of it in the test data
+        :param balanced_training: if True, we will equalize positive and negative training samples by oversampling
+        the lesser class. For example, if we have 4 positive samples and 7 negative samples, we will randomly re-sample
+        3 positive samples from the 4 positive samples, meaning there will be repetition. Use with caution.
+        :param data_vectors: this should be set if pos_neg_file is None. It is mostly for internal uses, so
+        that we can re-use this function by invoking it from some of the other _prepare_ files.
+        :return: dictionary containing training/testing data/labels
+        """
+        print ">>Prepare Actual Data<<"
+        if pos_neg_file:
+            data = TokenSupervised._prepare_actual_data_for_ML_classification(pos_neg_file)
+        elif data_vectors:
+            data = data_vectors
+        else:
+            raise Exception('Neither pos_neg_file nor data_vectors argument is specified. Exiting.')
+
+        results = dict()
+        results['train_data'] = []
+        results['train_labels'] = []
+        results['test_data'] = data[0]
+        results['test_labels'] = data[1]
+        results['words'] = data[2]
+        results['line_num'] = data[3]
 
         return results
 
@@ -689,6 +821,73 @@ class TokenSupervised:
         return predicted_probs
 
     @staticmethod
+    def _classify(model, train_data, train_labels, test_data, test_labels, words, line_num, classifier_model):
+        """
+        Take three numpy matrices and compute a bunch of metrics. Hyperparameters must be changed manually,
+        we do not take them in as input.
+
+        This method is for BINARY CLASSIFICATION only, although there is some support for regression.
+        :param train_data:
+        :param train_labels:
+        :param test_data:
+        :param test_labels:
+        :param classifier_model:
+        :return:
+        """
+        print ">>Classify<<"
+        predicted_labels = model.predict(test_data)
+            
+        if classifier_model not in ['linear_regression']:
+            predicted_probabilities = model.predict_proba(test_data)
+
+        curr_line_num = 0
+        curr_string = ""
+        for i in range(1,len(words)):
+            if(predicted_labels[i] == 0):
+                curr_string += words[i] + ":" + str(predicted_labels[i]) + ","
+            if(line_num[i]>curr_line_num):
+                print "{}: {}".format(line_num[i], curr_string)
+                curr_string = ""
+                curr_line_num = line_num[i]
+            #print test_data[i]
+            #print predicted_labels[i]
+            #print predicted_probabilities[i]
+
+
+        print len(words)
+        print len(line_num)
+        print len(test_data)
+        print len(predicted_labels)
+        print len(predicted_probabilities)        
+
+    @staticmethod
+    def _train_classifier(train_data, train_labels, test_data, test_labels, classifier_model):
+        """
+        Take three numpy matrices and compute a bunch of metrics. Hyperparameters must be changed manually,
+        we do not take them in as input.
+
+        This method is for BINARY CLASSIFICATION only, although there is some support for regression.
+        :param train_data:
+        :param train_labels:
+        :param classifier_model:
+        :return:
+        """
+        if classifier_model == 'random_forest':
+            model = RandomForestClassifier()
+            model.fit(train_data, train_labels)
+        elif classifier_model == 'knn':
+            k = 1
+            model = neighbors.KNeighborsClassifier(n_neighbors=k, weights='uniform')
+            model.fit(train_data, train_labels)
+        elif classifier_model == 'logistic_regression':
+            model = LogisticRegression()
+            model.fit(train_data, train_labels)
+        elif classifier_model == 'linear_regression': # this is a regressor; be careful.
+            model = LinearRegression()
+            model.fit(train_data, train_labels)
+        return model
+
+    @staticmethod
     def _train_and_test_classifier(train_data, train_labels, test_data, test_labels, classifier_model):
         """
         Take three numpy matrices and compute a bunch of metrics. Hyperparameters must be changed manually,
@@ -800,6 +999,60 @@ class TokenSupervised:
             TokenSupervised._select_k_best_features(data_dict, k=20)
             data_dict['classifier_model'] = 'random_forest'
             TokenSupervised._train_and_test_classifier(**data_dict)
+
+    @staticmethod
+    def extract_model(pos_neg_file, opt=2):
+        """
+
+        :param pos_neg_file: e.g. token-supervised/pos-neg-eyeColor.txt
+        :param opt:use this to determine which script to run.
+        :return: model
+        """
+        print ">>Extract Model<<"
+        model_dict = {}
+        if opt == 1:
+            #Test Set 1: read in data from pos_neg_file and use classifiers from scikit-learn/manual impl.
+            #We do NOT do any kind of feature selection.
+
+            data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
+            # print data_dict['train_labels'][0]
+            data_dict['classifier_model'] = 'manual_knn'
+            model = TokenSupervised._train_classifier(**data_dict)
+        elif opt == 2:
+            #Test Set 2: read in data from pos_neg_file and use classifiers from scikit-learn/manual impl.
+            #We do feature selection.
+            data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
+            model_dict['k_best'] = TokenSupervised._select_k_best_features(data_dict, k=20)
+            data_dict['classifier_model'] = 'random_forest'
+            model_dict['model'] = TokenSupervised._train_classifier(**data_dict)
+        return model_dict
+    
+    @staticmethod
+    def classify_data(model, pos_neg_file, opt=2):
+        """
+
+        :param pos_neg_file: e.g. token-supervised/pos-neg-eyeColor.txt
+        :param opt:use this to determine which script to run.
+        :return: model
+        """
+
+        print ">>Classify Data<<"
+        if opt == 1:
+            #Test Set 1: read in data from pos_neg_file and use classifiers from scikit-learn/manual impl.
+            #We do NOT do any kind of feature selection.
+
+            data_dict = TokenSupervised._prepare_actual_data(pos_neg_file)
+            # print data_dict['train_labels'][0]
+            data_dict['classifier_model'] = 'manual_knn'
+            model = TokenSupervised._classify(model['model'], **data_dict)
+        elif opt == 2:
+            #Test Set 2: read in data from pos_neg_file and use classifiers from scikit-learn/manual impl.
+            #We do feature selection.
+            data_dict = TokenSupervised._prepare_actual_data(pos_neg_file)
+            TokenSupervised._select_same_k_best(model['k_best'], data_dict)
+            data_dict['classifier_model'] = 'random_forest'
+            model = TokenSupervised._classify(model['model'], **data_dict)
+        return model
 
 
 # path='/home/mayankkejriwal/Downloads/memex-cp4-october/'
