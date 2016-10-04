@@ -429,7 +429,7 @@ class TokenSupervised:
         print ">>Select Same K Best<<"
         data_matrix = data_dict['test_data']
         label_matrix = data_dict['test_labels']
-        new_data_matrix = kBest.fit_transform(data_matrix, label_matrix)
+        new_data_matrix = kBest.transform(data_matrix)
         data_dict['test_data'] = new_data_matrix
 
 
@@ -709,7 +709,7 @@ class TokenSupervised:
         """
 
         :param pos_neg_file:
-        :return: dictionary containing training/testing data/labels
+        :return: dictionary containing the data/labels along with words and line_nums
         """
         print ">>Prepare Actual Data<<"
         if pos_neg_file:
@@ -928,9 +928,7 @@ class TokenSupervised:
     @staticmethod
     def _classify(model, test_data, test_labels, words, line_num, classifier_model):
         """
-        Take three numpy matrices and compute a bunch of metrics. Hyperparameters must be changed manually,
-        we do not take them in as input.
-
+        Takes the model and data to classify the data
         This method is for BINARY CLASSIFICATION only, although there is some support for regression.
         :param train_data:
         :param train_labels:
@@ -948,20 +946,27 @@ class TokenSupervised:
         curr_line_num = line_num[0]
         curr_string_0 = "0: "
         curr_string_1 = "1: "
+        set_0 = set()
+        set_1 = set()
         for i in range(0,len(words)):
             if(line_num[i] != curr_line_num):
-                print "Line {}:\n{}\n{}".format(curr_line_num, curr_string_0, curr_string_1)
+                set_0 = set_0 - set_1
+                print "Line {}:\nNot Cities:{}\nCities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1))
                 curr_string_0 = "0: "
                 curr_string_1 = "1: "
+                set_0 = set()
+                set_1 = set()
                 curr_line_num = line_num[i]
             if(predicted_labels[i] == 0):
                 curr_string_0 += words[i] + ", "
+                set_0.add(words[i])
             else:
                 curr_string_1 += words[i] + ", "
+                set_1.add(words[i])
             #print test_data[i]
             #print predicted_labels[i]
             #print predicted_probabilities[i]
-        print "Line {}:\n{}\n{}".format(curr_line_num, curr_string_0, curr_string_1)
+        print "Line {}:\nNot Cities:{}\nCities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1))
         print len(words)
         print len(line_num)
         print len(test_data)
@@ -971,7 +976,7 @@ class TokenSupervised:
     @staticmethod
     def _train_classifier(train_data, train_labels, classifier_model):
         """
-        Take three numpy matrices and compute a bunch of metrics. Hyperparameters must be changed manually,
+        Take training data numpy matrices and compute a bunch of metrics. Hyperparameters must be changed manually,
         we do not take them in as input.
 
         This method is for BINARY CLASSIFICATION only, although there is some support for regression.
@@ -1124,7 +1129,7 @@ class TokenSupervised:
     @staticmethod
     def extract_model(pos_neg_file, opt=2):
         """
-
+        Trains and returns the model dictionary
         :param pos_neg_file: e.g. token-supervised/pos-neg-eyeColor.txt
         :param opt:use this to determine which script to run.
         :return: model
@@ -1151,7 +1156,7 @@ class TokenSupervised:
             #---For Testing----
             #Using Random Sample as Training Data
             data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
-            model_dict['k_best'] = TokenSupervised._select_k_best_features(data_dict, k=20)
+            #model_dict['k_best'] = TokenSupervised._select_k_best_features(data_dict, k=20)
             del data_dict['test_data']
             del data_dict['test_labels']
             #------------
@@ -1163,7 +1168,8 @@ class TokenSupervised:
     @staticmethod
     def classify_data(model, pos_neg_file, opt=2):
         """
-
+        Classifies the data in the pos_neg_file using the model passed
+        :param model: model dictionary used having 'model' and 'k_best'(optional) transformation
         :param pos_neg_file: e.g. token-supervised/pos-neg-eyeColor.txt
         :param opt:use this to determine which script to run.
         :return: model
@@ -1182,7 +1188,7 @@ class TokenSupervised:
             #Test Set 2: read in data from pos_neg_file and use classifiers from scikit-learn/manual impl.
             #We do feature selection.
             data_dict = TokenSupervised._prepare_actual_data(pos_neg_file)
-            TokenSupervised._select_same_k_best(model['k_best'], data_dict)
+            #TokenSupervised._select_same_k_best(model['k_best'], data_dict)
             data_dict['classifier_model'] = 'random_forest'
             model = TokenSupervised._classify(model['model'], **data_dict)
         return model
