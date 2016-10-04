@@ -635,14 +635,6 @@ class TokenSupervised:
         """
 
         :param pos_neg_file:
-        :param train_percent:
-        :param randomize: If true, we'll randomize the data we're reading in from pos_neg_file. Otherwise, the initial
-        train_percent fraction goes into the training data and the rest of it in the test data
-        :param balanced_training: if True, we will equalize positive and negative training samples by oversampling
-        the lesser class. For example, if we have 4 positive samples and 7 negative samples, we will randomly re-sample
-        3 positive samples from the 4 positive samples, meaning there will be repetition. Use with caution.
-        :param data_vectors: this should be set if pos_neg_file is None. It is mostly for internal uses, so
-        that we can re-use this function by invoking it from some of the other _prepare_ files.
         :return: dictionary containing training/testing data/labels
         """
         print ">>Prepare Actual Data<<"
@@ -833,20 +825,23 @@ class TokenSupervised:
         if classifier_model not in ['linear_regression']:
             predicted_probabilities = model.predict_proba(test_data)
 
-        curr_line_num = 0
-        curr_string = ""
-        for i in range(1,len(words)):
-            if(predicted_labels[i] == 1):
-                curr_string += words[i] + ":" + str(predicted_labels[i]) + ","
-            if(line_num[i]>curr_line_num):
-                print "{}: {}".format(line_num[i], curr_string)
-                curr_string = ""
+        curr_line_num = line_num[0]
+        curr_string_0 = "0: "
+        curr_string_1 = "1: "
+        for i in range(0,len(words)):
+            if(line_num[i] != curr_line_num):
+                print "Line {}:\n{}\n{}".format(curr_line_num, curr_string_0, curr_string_1)
+                curr_string_0 = "0: "
+                curr_string_1 = "1: "
                 curr_line_num = line_num[i]
+            if(predicted_labels[i] == 0):
+                curr_string_0 += words[i] + ", "
+            else:
+                curr_string_1 += words[i] + ", "
             #print test_data[i]
             #print predicted_labels[i]
             #print predicted_probabilities[i]
-
-
+        print "Line {}:\n{}\n{}".format(curr_line_num, curr_string_0, curr_string_1)
         print len(words)
         print len(line_num)
         print len(test_data)

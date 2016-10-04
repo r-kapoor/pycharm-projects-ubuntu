@@ -3,8 +3,8 @@ import TokenSupervised
 import ContextVectorGenerators
 import os
 
-TRAINING_FILE = 'annotations_with_alt_1-25.json'
-ACTUAL_FILE = 'annotations_with_alt_1-25.json'
+TRAINING_FILE = 'annotated-cities-1.json'
+ACTUAL_FILE = 'annotated-cities-1.json'
 UNIGRAM_FILE = 'unigram-part-00000-v2.json'
 DATA_FOLDER = 'annotated-cities-trial' #Should be present in the path of this file
 
