@@ -2,11 +2,17 @@ import TextPreprocessors
 import TokenSupervised
 import ContextVectorGenerators
 import os
+import codecs
+
 
 #TRAINING_FILE = 'annotated-cities-1.json'
+#TRAINING_FILE = 'annotations_with_alt_1-25.json'
+TRAINING_FILE = 'annotations_with_alt_26-50.json'
 #ACTUAL_FILE = 'annotated-cities-1.json'
-TRAINING_FILE = 'annotations_with_alt_1-25.json'
-ACTUAL_FILE = 'annotations_with_alt_26-50.json'
+#ACTUAL_FILE = 'annotations_with_alt_26-50.json'
+ACTUAL_FILE = 'annotations_actual_file.json'
+#ACTUAL_FILE = 'annotations_with_alt_1-25.json'
+#ACTUAL_FILE = 'annotations_unseen_sample.json'
 UNIGRAM_FILE = 'unigram-part-00000-v2.json'
 DATA_FOLDER = 'annotated-cities-trial' #Should be present in the path of this file
 
@@ -59,6 +65,9 @@ def data_preparation_for_actual_data(actual_file, embeddings_file, text_attribut
                 text_attribute, annotated_attribute)
 
 
+def post_processing(classified_cities, actual_data_file):
+    TextPreprocessors.TextPreprocessors.post_processing(classified_cities, actual_data_file)
+                    
 def classification_script(pos_neg_file_training, pos_neg_file_actual_data):
     """
     Run this code after running a data preparation script.
@@ -69,14 +78,15 @@ def classification_script(pos_neg_file_training, pos_neg_file_actual_data):
     print ">>Clasification Script<<"
     TokenSupervised.TokenSupervised.trial_script_binary(pos_neg_file_training)
     model = TokenSupervised.TokenSupervised.extract_model(pos_neg_file_training)
-    TokenSupervised.TokenSupervised.classify_data(model, pos_neg_file_actual_data)
+    return TokenSupervised.TokenSupervised.classify_data(model, pos_neg_file_actual_data)
 
 path = os.path.dirname(os.path.abspath(__file__)) + '/'+DATA_FOLDER+'/'
 data_preparation_for_training_data(path+TRAINING_FILE, path+UNIGRAM_FILE,'high_recall_readability_text', 'annotated_cities', 
     'correct_cities', path+'output_folder/')
 data_preparation_for_actual_data(path+ACTUAL_FILE, path+UNIGRAM_FILE,'high_recall_readability_text', 'annotated_cities', 
     path+'output_folder/')
-classification_script(path+'output_folder/pos-neg-train.txt', path+'output_folder/pos-neg-actual.txt')
+classified_cities = classification_script(path+'output_folder/pos-neg-train.txt', path+'output_folder/pos-neg-actual.txt')
+post_processing(classified_cities, path+ACTUAL_FILE)
 
 # data_preparation_script_1(path+'annotated-cities-1.json', path+'unigram-part-00000-v2.json',
 # path = '/Users/mayankkejriwal/ubuntu-vm-stuff/home/mayankkejriwal/tmp/annotated-cities-trial/'

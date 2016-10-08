@@ -944,34 +944,50 @@ class TokenSupervised:
             predicted_probabilities = model.predict_proba(test_data)
 
         curr_line_num = line_num[0]
-        curr_string_0 = "0: "
-        curr_string_1 = "1: "
         set_0 = set()
         set_1 = set()
+        set_borderline = set()
+
+        classified_cities = list()
+        
         for i in range(0,len(words)):
+            #print line_num[i]
             if(line_num[i] != curr_line_num):
-                set_0 = set_0 - set_1
-                print "Line {}:\nNot Cities:{}\nCities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1))
-                curr_string_0 = "0: "
-                curr_string_1 = "1: "
+                set_0 = set_0 - set_1 - set_borderline
+                set_borderline = set_borderline - set_1
+                print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1)
+                    , ', '.join(set_borderline))
+                classified_cities_dict = {}
+                classified_cities_dict['cities'] = set_1
+                classified_cities_dict['borderline_cities'] = set_borderline
+                classified_cities_dict['not_cities'] = set_0
+                classified_cities.append(classified_cities_dict)
                 set_0 = set()
                 set_1 = set()
+                set_borderline = set()
+                for k in range(1,int(line_num[i]) - int(curr_line_num)):
+                    classified_cities.append({'cities': set(), 'borderline_cities': set(), 'not_cities': set()})
                 curr_line_num = line_num[i]
             if(predicted_labels[i] == 0):
-                curr_string_0 += words[i] + ", "
-                set_0.add(words[i])
+                if(predicted_probabilities[i][0] <= 0.6):
+                    set_borderline.add(words[i])
+                    #print words[i] + str(predicted_probabilities[i])
+                else:
+                    set_0.add(words[i])
             else:
-                curr_string_1 += words[i] + ", "
                 set_1.add(words[i])
             #print test_data[i]
             #print predicted_labels[i]
             #print predicted_probabilities[i]
-        print "Line {}:\nNot Cities:{}\nCities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1))
-        print len(words)
-        print len(line_num)
-        print len(test_data)
-        print len(predicted_labels)
-        print len(predicted_probabilities)        
+        print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1)
+                    , ', '.join(set_borderline))
+        classified_cities_dict = {}
+        classified_cities_dict['cities'] = set_1
+        classified_cities_dict['borderline_cities'] = set_borderline
+        classified_cities_dict['not_cities'] = set_0
+        classified_cities.append(classified_cities_dict)
+        print len(classified_cities)
+        return classified_cities
 
     @staticmethod
     def _train_classifier(train_data, train_labels, classifier_model):
@@ -1183,15 +1199,15 @@ class TokenSupervised:
             data_dict = TokenSupervised._prepare_actual_data(pos_neg_file)
             # print data_dict['train_labels'][0]
             data_dict['classifier_model'] = 'manual_knn'
-            model = TokenSupervised._classify(model['model'], **data_dict)
+            classified_cities = TokenSupervised._classify(model['model'], **data_dict)
         elif opt == 2:
             #Test Set 2: read in data from pos_neg_file and use classifiers from scikit-learn/manual impl.
             #We do feature selection.
             data_dict = TokenSupervised._prepare_actual_data(pos_neg_file)
             #TokenSupervised._select_same_k_best(model['k_best'], data_dict)
             data_dict['classifier_model'] = 'random_forest'
-            model = TokenSupervised._classify(model['model'], **data_dict)
-        return model
+            classified_cities = TokenSupervised._classify(model['model'], **data_dict)
+        return classified_cities
 
 
 # path='/Users/mayankkejriwal/ubuntu-vm-stuff/home/mayankkejriwal/Downloads/memex-cp4-october/'

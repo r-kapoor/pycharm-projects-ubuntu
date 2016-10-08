@@ -305,8 +305,54 @@ class TextPreprocessors:
                     out.write('\n')
         out.close()
 
+    @staticmethod
+    def post_processing(classified_cities, actual_data_file):
+        print "Length:"+str(len(classified_cities))
+        print "{}: {}, {}, {}, {}".format("Index:", "classified_city_which_is_a_city",
+            "classified_city_which_is_not_a_city", "city_not_classified_as_city", 
+            "total_correct_cities")
+        total_correct_cities = 0
+        total_classified_city_which_is_a_city = 0
+        total_classified_city_which_is_not_a_city = 0
+        total_city_not_classified_as_city = 0
+        with codecs.open(actual_data_file, 'r', 'utf-8') as f:
+            for index, line in enumerate(f):
+                obj = json.loads(line)
+                correct_cities = set(obj['correct_cities'])
+                annotated_cities = set(obj['annotated_cities'])
+                classified_as_cities = classified_cities[index]['cities']
+                classified_as_borderline = classified_cities[index]['borderline_cities']
+                classified_as_cities = classified_as_cities | classified_as_borderline
+                classified_as_not_cities = classified_cities[index]['not_cities']
+                total_annotated_cities = len(classified_as_cities) + len(classified_as_borderline) + len(classified_as_not_cities)
+                total_cities_provided = len(annotated_cities)
+                classified_city_which_is_a_city = list()
+                classified_city_which_is_not_a_city = list()
+                city_not_classified_as_city = list()
+                for city in classified_as_cities:
+                    if(city in correct_cities):
+                        classified_city_which_is_a_city.append(city)
+                    else:
+                        classified_city_which_is_not_a_city.append(city)
+                for city in correct_cities:
+                    if(city not in classified_as_cities):
+                        city_not_classified_as_city.append(city)
+                print "{}: {}, {}, {}, {}".format(index, len(classified_city_which_is_a_city), 
+                    len(classified_city_which_is_not_a_city), len(city_not_classified_as_city), len(correct_cities))
+                total_correct_cities += len(correct_cities)
+                total_classified_city_which_is_a_city += len(classified_city_which_is_a_city)
+                total_classified_city_which_is_not_a_city += len(classified_city_which_is_not_a_city)
+                total_city_not_classified_as_city += len(city_not_classified_as_city)
+                #print total_annotated_cities
+                #print total_cities_provided
+                #print classified_city_which_is_a_city
+                #print classified_city_which_is_not_a_city
+                #print city_not_classified_as_city
 
-
+        print "{}: {}, {}, {}, {}".format("Total:", total_classified_city_which_is_a_city,
+            total_classified_city_which_is_not_a_city, total_city_not_classified_as_city, 
+            total_correct_cities)
+                
 # path='/Users/mayankkejriwal/ubuntu-vm-stuff/home/mayankkejriwal/tmp/'
 # TextPreprocessors.preprocess_annotated_cities_file(path+'raw-data/annotated-cities-2.json',
 #                                                 path+'prepped-data/annotated-cities-2-prepped.json')

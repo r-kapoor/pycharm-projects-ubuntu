@@ -1,0 +1,367 @@
+Index:: classified_city_which_is_a_city, classified_city_which_is_not_a_city, city_not_classified_as_city, total_correct_cities
+0: 1, 3, 0, 1
+1: 1, 1, 0, 1
+2: 0, 0, 0, 0
+3: 1, 6, 1, 2
+4: 1, 6, 2, 3
+5: 0, 0, 1, 1
+6: 1, 2, 1, 2
+7: 0, 0, 1, 1
+8: 0, 0, 0, 0
+9: 0, 1, 2, 2
+10: 0, 0, 1, 1
+11: 0, 0, 1, 1
+12: 0, 0, 0, 0
+13: 0, 0, 0, 0
+14: 0, 0, 1, 1
+15: 1, 0, 0, 1
+16: 0, 0, 1, 1
+17: 1, 0, 0, 1
+18: 0, 1, 0, 0
+19: 0, 0, 0, 0
+20: 6, 7, 4, 10
+21: 1, 1, 0, 1
+22: 1, 1, 0, 1
+23: 2, 2, 2, 4
+24: 0, 0, 1, 1
+25: 0, 0, 1, 1
+26: 1, 2, 0, 1
+27: 1, 0, 0, 1
+28: 0, 0, 1, 1
+29: 1, 1, 0, 1
+30: 1, 3, 0, 1
+31: 1, 0, 0, 1
+32: 2, 2, 0, 2
+33: 3, 3, 0, 3
+34: 0, 0, 3, 3
+35: 0, 1, 1, 1
+36: 4, 0, 0, 4
+37: 3, 1, 2, 5
+38: 3, 0, 0, 3
+39: 2, 2, 2, 4
+40: 1, 0, 0, 1
+41: 1, 1, 1, 2
+42: 1, 0, 0, 1
+43: 1, 2, 1, 2
+44: 3, 0, 0, 3
+45: 1, 1, 0, 1
+46: 1, 2, 1, 2
+47: 2, 2, 0, 2
+48: 1, 0, 0, 1
+49: 5, 3, 5, 10
+Total:: 56, 57, 37, 93
+
+Details:-
+Experiment:Tag a dictionary extraction as city or not a city
+The model was trained over a random sample set of 7 and run over a manually annotated data set of 50
+Each row is the result of the classification of a set of dictionary extracted cities from high_recall_readability_text
+
+Column Headers:
+classified_city_which_is_a_city: A city which was classified correctly (TP)
+classified_city_which_is_not_a_city: A word not a city classified as city (FP)
+city_not_classified_as_city: A city not classified as a city (TN)
+total_correct_cities: Total count of words which are actually cities (TP+TN)
+
+The classification was done into 3 categories: Cities, Not Cities and Borderline Cities (with confidence >=0.4 and <=0.5) 
+
+Example of Correct Classification:
+{"annotated_cities": ["date", "green", "auburn", "for", "are", "a se", "and", "of", "i", "am", "the", "for", "a se", "of", "and", "and", "as", "put", "at", "we", "i", "the", "of", "the", "had", "of", "of", "i", "the", "of", "auburn", "has", "never", "and", "the", "green", "the", "i", "of", "and", "at", "the", "of", "our", "are", "of", "a se", "as", "i", "of", "the", "i", "not", "a se", "since", "same", "day", "are", "for", "but", "i", "best", "no", "yes", "i", "can", "victoria", "victoria", "tour", "date", "albuquerque", "more", "of", "com"], 
+"high_recall_readability_text": "\n \n DATE CHECK&reg  Female Escorts -  Escort Services Directory \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \\u00a0\\u00a0\\u00a0\r\n                            Age\r\n                             \n 31 yrs \n \n \n \\u00a0\\u00a0\\u00a0\r\n                            Height \n 5' 8 \n \n \n \\u00a0\\u00a0\\u00a0\r\n                            Body Style \n Curvy \n \n \n \\u00a0\\u00a0\\u00a0\r\n                            Body Stats \n 34DD \n \n \n \\u00a0 \n \n \n \n \\u00a0\\u00a0\\u00a0\r\n                            Eye Color \n Green \n \n \n \\u00a0\\u00a0\\u00a0\r\n                            Hair Color \n Auburn \n \n \n \\u00a0\\u00a0\\u00a0\r\n                            Ethnicity \n Caucasian \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \\u00a0\\u00a0\\u00a0\\u00a0\r\n                 Escort Biography \n \n \n \n \n \n \n \n Thank you for your interest in spending some time with me. If you are seeking a companion who loves to laugh and you enjoy connecting through conversation of shared interests then I am the lady for you.  \r\n\r\nYou will find me to be a delectable concoction of mystery, sensuality, and passion. My innovative wit and sharp intellect is sure to capture your mind as my warm demeanor will put you at ease when we meet. I have the visage of the girl-next-door that you had always dreamed of meeting...of touching. I have the softest locks of real auburn hair that has never been dyed and it flows effortlessly to my hips. The smolder in my green eyes will draw you into the mysterious abyss that lies within. I possess alabaster skin that is free of tattoos and is so silky that you will find it difficult to pull away from at the end of our encounter. My curves are that of a real woman who relishes in providing you pleasure as I enjoy that of my own.  \r\n\r\n\r\nPlease visit my website in order to schedule your escape from the mundane with me. I also accept Date-Check requests. Please do not PM me on this site in regards to a request.  \r\n\r\n\r\nPre-booking is recommended since my availability is limited. Same day requests are nearly impossible for me to accommodate, but I will do my best.\r\n \n \\u00a0\r\n                 \n \n \n \n \n \n \n \\u00a0\\u00a0\\u00a0\\u00a0\r\n                 Escort Contact\r\n                Information \n \n \n \n \n \n \n \n EMail Address \n \n \n \n \n \n \n \n \n Website Address \n \n \n \n \n \n \n \n \n \\u00a0 \n \n \n \n \n \n \n \n \n \n Message\r\n                            Board\\u00a0 \n TER \n \n \n Board\r\n                            Nickname\\u00a0 \n \n 223479 \n \n \n \\u00a0 \n \n \n \n Phone\r\n                            Number\\u00a0 \n \n (505)200-1591 \n \n \n \n \n \n \n AOL\r\n                            IM Handle\\u00a0 \n \n \n \n MSN\r\n                            Messenger\\u00a0 \n \n \n \n Yahoo!\r\n                            Chat\\u00a0 \n \n \n \n ICQ\r\n                            Contact #\\u00a0 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \\u00a0 \n \n \n \\u00a0\\u00a0\\u00a0\\u00a0\r\n                 Escort Services\r\n                Information \\u00a0\\u00a0\\u00a0\\u00a0\\u00a0\\u00a0  \n \\u00a0( Albuquerque\\u00a0NM\\u00a0Independent \\u00a0Escort\\u00a0) \n \n \n \n \n \n \n \n \n \n Donation\r\n                            / Gift$ \n See Website \n \n \n \\u00a0 \n \n \n \n Couples\\u00a0Escort \n No, sorry \n \n \n Travel\\u00a0Escort \n \n Yes, I can travel  \n \n \n Incall\r\n                            / Outcall \n \n Incall Available / Outcall Available \n \n \n \r\n                          \\u00a0\r\n                           \n \n \n \n \n Member\r\n                            Discount \n \n \n \n \n \n \n \n \n Will\r\n                            Entertain \n \n Verified Members (1+ Verifications) \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \\u00a0 \n \n \n \\u00a0\\u00a0\\u00a0\\u00a0\r\n                 Favorite Things \n \n \n \n \n \n \n Stores\\u00a0 \n Victoria Secret \n \n \n Perfume\\u00a0 \n \n Victoria Secret Love Spell \n \n \n Movie\\u00a0 \n American Beauty \n \n \n Music\\u00a0 \n \n Classical, Hip Hop \n \n \n Jewelry\\u00a0 \n \n Silver \n \n \n Flowers\\u00a0 \n \n Carnations \n \n \n \n \n \n \n \\u00a0 \n \n \n \\u00a0\\u00a0\\u00a0\\u00a0\r\n                 Escort Tour Schedule \n \n \n \n \n \n \n \\u00a0 \n Start\r\n                            Date\\u00a0 \n End\r\n                            Date \n \n \n Albuquerque \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \r\n                   \\u00a0\r\n               \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n More profiles of Independent \r\n        \r\n            Albuquerque\\u00a0Escorts  at\\u00a0\r\n        DATE-CHECK.com   \n \n \n \n \n \n \n \n \n \n \n \n", 
+"correct_cities": ["auburn", "victoria", "albuquerque"], 
+"correct_country": "United States"}
+Classification Result:
+Not Cities:and, am, date, as, are, our, yes, best, for, no, since, had, same, has, more, we, never, but, not, day, i, of, put, tour, green, can, the, at
+Cities:victoria, albuquerque, auburn
+
+Examples of Incorrect Classification:
+Example 1:
+{"annotated_cities": ["pin", "edmonton", "calgary", "edmonton", "edmonton", "no", "has", "calgary", "since", "and", "for", "no"], 
+"high_recall_readability_text": "\n \n \n \n \n Pin Ad to Gallery \n \n \n \n \r\n    * Edmonton Asian Escort * New Asian Erica Rock your world * 6476877096 *  - 21, 5'6, 35d, 110 l - 21 \r\n\\ufffd\\ufffd\\ufffd Calgary, Downtown, Edmonton, Edmonton Downtown 1 on 1, Northeast  | Monday, May 16, 2016 12:24 PM     | \\u2022\r\n             215-635-1101 \n \n \n \n \n \r\n        No TER review found\r\n         \n \n \r\n        Write a review\r\n         \n \n \n Phone numbers with matching images \n \n \n 215-635-1101 has  3 ads  in Calgary since  May 14, 2016 and  8 ads in 1 other cities. 0 fake pics were reported for this ad. 5 different phone numbers used matching images. No written escort reviews were found. \n \n \n \n \n \r\n        Copyright @ 2016 LiveEscortReviews.com\r\n \n \n", 
+"correct_cities": ["edmonton", "calgary"],
+"correct_country":"Canada"}
+Classification Result:
+Not Cities:and, calgary, since, for, no
+Cities:pin
+Border Cities:edmonton, has
+
+Example 2:
+{"annotated_cities": ["montreal", "and", "are", "of", "not", "of", "and", "and", "are", "not", "law", "are", "the", "we", "for", "our", "i", "of", "i", "and", "i", "am", "of", "am", "not", "of", "and", "i", "am", "not", "are", "law", "i", "are", "for", "and", "of", "i", "the", "of", "i", "of", "the", "i", "the", "and", "all", "and", "the", "of", "an", "of", "we", "are", "not", "the", "the"], 
+"high_recall_readability_text": "\n \n \n \n Camilla   Montreal Escort   \n \n Simialiar to Camilla \n \\u0102\\u0097 Disclaimer This website contains sexual content, including pictorial nudity and adult language. It is to be accessed only by persons who are 18 years of age or older (and is not considered to be a minor in his/her state of residence) and who live in a community or local jurisdiction where nude pictures and explicit adult materials are not prohibited by law. By accepting, you are representing to us that you meet the above qualifications. A false representation may be a criminal offense.   We have a zero tolerance policy for child pornography or minors advertising or utilizing our site. I agree to report any illegal services or activites which violate Terms of Use.   I confirm and represent that I am 18 years of age or older (and am not considered to be a minor in my state of residence) and that I am not located in a community or local jurisdiction where nude pictures or explicit adult materials are prohibited by any law. I understand that listings are for time and companionship only; anything else is a matter of choice between consenting adults. I agree to report any illegal services or activities which violate the Terms of Use. I also agree to  report suspected exploitation of minors and/or human trafficking  to the appropriate authorities.    I have read the disclaimer and agree to all rules and regulations including the  Terms of Use .  \\u00c2\\u00a0 This website  is an aggregator of  escort advertisements. We are not affiliated with the web services where the advertisements originated or its advertisers. Decline Accept", 
+"correct_cities": ["montreal"], 
+"correct_country": "Canada"}
+Classification Result:
+Not Cities:and, we, for, i, of, am, all, an, are, not, our, the, law, montreal
+Cities:
+Border Cities:
+
+Example 3:
+{"annotated_cities": ["the", "florida", "los", "los angeles", "angeles", "com", "for", "are", "of", "not", "for", "are", "not", "of", "are", "law", "not", "an", "not", "florida", "not", "the", "a le", "not", "as", "of", "for", "the", "of", "the", "the", "our", "florida", "and", "the", "not", "and", "not", "the", "of", "i", "the", "i", "am", "at", "of", "the", "i", "am", "for", "and", "i", "never", "i", "am", "not", "a le", "law", "as", "an", "for", "the", "of", "for", "the", "of", "i", "and", "the", "i", "as", "an", "i", "the", "of", "i", "and", "the", "and", "are", "not", "the", "reading", "and", "of", "the", "and", "not", "the", "of", "city", "i", "am", "for", "and", "for", "reading", "of", "and", "and", "florida", "and", "for", "as", "a le", "of", "of", "a le", "florida", "and", "as", "as", "of", "of", "a le", "of", "not", "the", "of", "the", "of", "i", "i", "am", "and", "of", "i", "the", "of", "and", "of", "at", "florida", "and", "and", "one", "more", "of", "the", "and", "all", "are"], 
+"high_recall_readability_text": "\n \n \n \n Making Stars in the Adult Industry from Florida to Los Angeles \n \n \n \\u00a0 bella@adultstarmkrs.com   \n \\u00a0 \\u00a0 561-213-7308 \n         \n \n \n \n \n \n \n Toggle navigation \n \n \n \n \n \n \n \n \n \n \n WARNING \n This website contains adult-oriented material that may be offensive to, or illegal for some readers. This website also contains Explicit Adult Nudity. \n IF YOU ARE OFFENDED BY THIS TYPE OF MATERIAL THEN DO NOT ENTER THIS SITE. YOU MUST BE 18 OR OLDER TO CONTINUE VIEWING THIS WEBSITE!! \n ENTER NOW \n LEGAL NOTICE: \n Please note that this site contains sexually oriented adult material intended for individuals 21 Years or older. If you are not over 21 Years of age, If adult material offends you or if you are accessing this site from any country or locale where adult material is specifically prohibited by law, Please Do Not Enter This Site. \n This website is an adult entertainment not designed to promote prurient interests. Florida Fetish Films, does not warrant the information presented here. Furthermore, a listing is not to be construed as any type of implied endorsement for the authors or services of the listed pages or the information contained thereon. \n To protect our users from viewing adult-oriented material without their consent, Florida Fetish Films, requires you to read and certify the following statements. \n NOTE: DO NOT CONTINUE UNLESS YOU KNOW YOUR LOCAL OBSCENITY LAWS, AND FURTHERMORE KNOW THAT THEY DO NOT PROHIBIT THE VIEWING OF ADULT MATERIAL. \n By accepting this agreement, I certify the following: \n 1. I am at least 21 years of age. \n 2. The sexually explicit material I am buying and/or viewing is for my own personal use and I will never expose minors to said material. \n 3. I am not a U.S. Postal official, or law enforcement agent, or acting as an agent thereof, attempting to obtain any evidence for the prosecution of any individual or corporation, or for the purpose of entrapment. \n 4. I desire to receive and haven't notified the U.S. Postal Service, or any other governmental agency to intercept sexually explicit material. \n 5. I believe that, as an adult, I have the unalienable right to read and/or view any type of material that I choose and that the material and images contained in this website are not obscene or offensive in any way, nor could ever be construed to be obscene or offensive. \n 6. The viewing, reading, and downloading of the material and images in this website do not violate the community standards of my street, village, city, town, county, state, province, or country. \n 7. That I am wholly liable for any false disclosures and responsible for any legal ramifications that may arise from viewing, reading, or downloading of material and images contained within this website and that , Florida Fetish Films and its affiliates cannot be held responsible for any legal ramifications that may arise as a result of fraudulent entry into, or use of, this website and/or material contain herein. \n This warning page constitutes a legal Agreement between Florida Fetish Films, and yourself, as well as any business entity of which you have any legal or equitable interest. If any portion of this Agreement is deemed unenforceable by a Court of compentent jurisdiction, it shall not affect the enforcability of the other portions of this Agreement. \n I agree that by entering this web site, I am subjecting myself and any business entity of which I have any legal or equitable interest to the personal jurisdiction of my State and Country of residence should any dispute arise at any time between Florida Fetish Films, and myself and any such business entity. \n ENTER NOW \n GO BACK TO GOOGLE \n PARENTS - PLEASE USE ONE OR MORE OF THE FOLLOWING SYSTEMS TO PREVENT YOUR CHILDREN FROM ACCESSING THIS AND OTHER ADULT SITES: \n CYBERPATROL  |  NETNANNY  |  SURFWATCH \n All models appearing are 18 years or older. \n \n \n \n \n \n", 
+"correct_cities": ["florida", "los angeles"], 
+"correct_country": "United States"}
+Classification Result:
+Not Cities:and, city, all, one, for, i, of, never, am, an, as, are, los angeles, not, our, law, reading, more
+Cities:angeles, the, florida
+Border Cities:los, at
+
+Example where Borderline Captures Correct Cities:
+{"annotated_cities": ["a se", "mobile", "of", "all", "the", "you ma", "the", "you ma", "all", "the", "you ma", "are", "you ma", "all", "the", "city", "our", "you ma", "manage", "and", "the", "save", "you ma", "save", "are", "never", "not", "you ma", "can", "and", "add", "you ma", "the", "make", "and", "for", "you ma", "for", "and", "for", "all", "a se", "and", "are", "you ma", "a se", "you ma", "the", "of", "mobile", "most", "the", "the", "run", "most", "hot", "for", "max", "spa", "of", "young", "try", "for", "the", "fun", "the", "the", "the", "hong kong", "of", "for", "lux", "lux", "bux", "for", "the", "all", "turn", "the", "get", "the", "and", "the", "the", "for", "nice", "are", "you ma", "of", "come", "a se", "puerto", "puerto rico", "an", "make", "all", "an", "come", "an", "san", "san juan", "puerto", "puerto rico", "you ma", "a se", "kansas city", "city", "kansas city", "city", "mo", "add"], 
+"high_recall_readability_text": "\n \n \n \n \n\t\t\tKansas City\n\t\t \n \n \n \n \n \n \n \n \n 16388682 \n 8163687263 \n \n \n \n \n\t\t\t\tOK\n\t\t\t \n \n \n   \n\t\t\tX\n\t\t \n Report Post: \n Select reason*: \n \n Choose \n Miscategorized \n Abuse \n Wrong Photos \n Fake Ad \n Other \n \n required field \n Details*: \n required field \n Your Email* \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n Registration Panel: \n \n Enter your key:  \n\t\t \n \n Generated key: \n\t\t \n \n \n \n NEW ACCOUNT \n SIGN IN \n CLOSE \n \n \n \n \n \n \n \n \n What is ListCrawler? \n ListCrawler  is a Mobile Classifieds List-Viewer displaying daily Classified Ads from\n\t\t\t\ta variety of independent sources all over the world.\n\t\t\t\tListCrawler allows you to view the products you desire \n\t\t\t\tfrom  all available Lists . \n The Category that you are currently viewing is: \n \\u00a0ADULT(Escorts) \n\t\tThis section gives you access to all Posts from the following Sources: \n Cheepo's List \n Backpage \n Escort Babylon \n Craigs List \n MegaPersonals \n City Pages (TransX) \n King-Dong Ent (Spazilla) \n VIEW LISTS HERE \n \n\t\t\tListCrawler-Plus\n\t\t \n LC+  is our Premium Service allowing you to  manage, track and store  noteworthy Posts by offering the \n\t\tfollowing  Bonus Features: \n SAVE POST \n Lets you to  Save  your selected Posts\n permanently & anonymously.  The\n Saved Posts are never stored on your device , \nand  do not leave any trace  -  yet you can \ninstantly and securely access them anywhere, anytime. \n ADD NOTE \n Gives you the ability to make  Private Notes  \nand  comments  on specific Posts and store them for future reference. \n HILIGHT POST \n Permits you to \n temporarily mark  select Posts for easy and quick\nvisibility. This is especially useful for comparison\nshopping while considering options.\n\" Hilight \"  \ncompiles all Marked Posts under a single \" Hilights List \".  (Hilighted Posts and are automatically deleted after 6 hours.) \n Copyright \\u00a9 2013-2014 If you have a post you'd like displayed in \n\t\t  \n\t ListCrawler, \n\t\t\n\t you may place it  \n\t HERE\n\t  \n \n \n \n \n \n \n \n \n \n \n \n \n \n FEATURED LISTS: \n \n \n \n Reviewed \n on Escort Babylon \n Trustworthy? Rip-off? Cop? Audience Reviews on EB. \n \n \n \n \n \n Independent \n call me \n The original, holy grail of independent escorts. Agency-free! \n \n \n \n \n \n BACKPAGE \n Mobile Version 2.0 \n North America's largest & most comprehensive classifieds list.  \n \n \n \n \n \n CHEEPO'S LIST \n The Notorious Original \n The independent list run by outlaw cowboy Bill Cheepo from Iowa. \n \n \n \n \n \n MILFY \n Womanses in their 30s \n Escort Babylon's most popular MILFs list. Hot mammas for mofos. \n \n \n \n \n \n 40 UP \n Mature Women 40+ \n Escort Babylon's MATURE list.\nExperienced women that know. \n \n \n \n \n \n MAX 80 \n Listings $80 or Less \n Escort Babylon's daily offerings under $80. THAT'S CHEAP! \n \n \n \n \n \n SPAZILLA \n Spa, Massage & Body Rub \n Monster list of legit spas, rub parlours & happy ending tug-joints. \n \n \n \n \n \n YOLO \n 20 whatevs \n Young things in their 20s who will try anything once or twice. \n \n \n \n \n \n CANDY \n BBW / Curvy \n Voluptuous treats for guys who\nenjoy the bigger things in life. \n \n \n \n \n \n CAR FUN \n Car Calls \n In the car just like in the old days. Pull over Mac, where's the fire? \n \n \n \n \n \n AY PAPI! \n Chicas Latinas \n Sweet Catholic gals from Spain,\nLatin America, Brazil & Portugal. \n \n \n \n \n \n HONG KONG BOBO \n All-Asian \n Master-list of Far-East delights submitted for your pleasure. \n \n \n \n \n \n LUX EROTICA \n VIP / Hotel \n Lux costs bux. For the gentleman who wants it all. \n \n \n \n \n \n 4:20 \n Party time \n Turn on the Northern Lights with dope girls who like to get low. \n \n \n \n \n \n DESI DAHLS \n East/West Indian \n Hard working girls from the East & West Indies have arrived. \n \n \n \n \n \n BLACK DYNOMITE \n Ebony Foxes \n And the colored girls go doo doo doo doo doo doo doo doo doo.  \n \n \n \n \n \n TRANS-X \n Shemales \n The full-monty, for when nothing less will do! Nice dick, babe!  \n \n \n \n   \n \n \n \n \n \n \n \n\t\t\t\t\t sexy borica tgirl  - 23\n\t\t\t\t\t  \n \n\t\t\t\t\t \tMon 20 Jun 2016 04:48 AM\n\t\t\t\t\t  \n \n                                              Hey guys are you tired of them boring ass regular tgirl well come play with a sexy ass Puerto Rican girl an I'll make all your fantasy's an dream come true I'm 5'5 145lbs an always excited to meet new people I'm from San Juan Puerto Rico so you know I'm a party girl so hmu if your interested (816)368-7263 \\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd\\ufffd                   \n\t\t\t \n Poster's Age:\\u00a0 23 \n \n \n Location: Kansas City, Kansas city mo \n \n \n \n NOTE:&nbsp \n \n \n \n \n \n \n  ADD NOTE\n\t\t\t\t \n \n \n \n \n \n \n \n \n \n", 
+"correct_cities": ["san juan", "puerto rico", "kansas city", "hong kong"], 
+"correct_country": "United States"}
+Classification Result:
+Not Cities:and, san juan, all, san, manage, an, are, spa, our, for, lux, make, young, hot, save, nice, bux, run, get, max, never, most, add, not, come, mobile, of, mo, try, turn, can, fun, the
+Cities:city, puerto rico, kansas city, puerto
+Border Cities:hong kong
+
+
+ALL Classification Results:
+Line 0:
+Not Cities:set, name, for, no, never, young, say, at, fun, our, get, save, independence, nice
+Cities:and, i, am, phoenix
+Border Cities:hot, the
+Line 1:
+Not Cities:and, we, for, of, make, part, bp, are, lot, not, our, the, day, best
+Cities:orlando, nav
+Border Cities:
+Line 2:
+Not Cities:and, all, for, no, i, of, am, amd, not, are, fun, the, law, come
+Cities:
+Border Cities:
+Line 3:
+Not Cities:all, montpellier, an, as, rim, tours, at, our, anderson, sip, for, due, add, granville, alana, more, we, columbia, elizabeth, get, never, part, let, date, law, gel, center, metro, of, ottawa, bay, tour, fun, the, chelsea, side
+Cities:and, art, cypress, vancouver, the city, ski, best
+Border Cities:city, one, most, are, stanley, has, can
+Line 4:
+Not Cities:all, montpellier, an, as, rim, tours, at, our, sip, for, due, wright, add, granville, alana, more, we, columbia, elizabeth, get, never, part, let, date, law, gel, center, metro, of, markova, ottawa, bay, tour, fun, the, side
+Cities:and, art, cypress, vancouver, the city, ski, best
+Border Cities:city, one, most, are, stanley, has, can
+Line 5:
+Not Cities:and, no, for, istanbul, cup
+Cities:
+Border Cities:
+Line 6:
+Not Cities:central, daytona, get, of, are, off, along
+Cities:orlando, nav, for
+Border Cities:florida
+Line 7:
+Not Cities:and, for, her, not, jaw, an, most, as, can, istanbul, fun, the, has, along, she
+Cities:
+Border Cities:more
+Line 9:
+Not Cities:and, calgary, since, for, no
+Cities:pin
+Border Cities:edmonton, has
+Line 10:
+Not Cities:and, bio, all, more, for, i, of, top, we, but, most, as, can, goes, ask, our, the, has, are
+Cities:
+Border Cities:delhi
+Line 11:
+Not Cities:and, hhr, lbs, francisco, name, for, no, make, all, hot, her, she, san francisco, san, tall, at
+Cities:
+Border Cities:young
+Line 12:
+Not Cities:and, owo, name, swo, i, bella, cat, as, our, come
+Cities:
+Border Cities:yes
+Line 13:
+Not Cities:and, owo, name, swo, i, bella, cat, as, our, come
+Cities:
+Border Cities:yes
+Line 14:
+Not Cities:all, can, one, our, police, for, no, young, per, tina, cum, has, was, more, bangkok, wedding, an, man, her, i, of, tour, she, the, nice
+Cities:
+Border Cities:and, thai
+Line 15:
+Not Cities:and, i, india, am, soul, bust, an, add, tall, yes, best, man
+Cities:bangalore
+Border Cities:
+Line 16:
+Not Cities:london, are, no
+Cities:
+Border Cities:
+Line 17:
+Not Cities:and, for, no, india, bust, add, can, yes, man, are
+Cities:bangalore
+Border Cities:
+Line 18:
+Not Cities:and, all, i, of, am, as, at, not, the
+Cities:an
+Border Cities:
+Line 20:
+Not Cities:and, all, san, stat, san francisco, tan, for, make, young, much, new york city, we, francisco, gay, normal, big, most, of, humble, bay, can, fun, tall, the, sf
+Cities:city, west hollywood, los, i, sacramento, yuba city, washington, angeles, long beach, los angeles, washington dc, hollywood, male
+Border Cities:houston, new york, york, orange, nyc, manhattan
+Line 21:
+Not Cities:and, all, an, tui, hot, the, best
+Cities:nav, omaha
+Border Cities:
+Line 22:
+Not Cities:drama, no, for, more
+Cities:nav, shreveport
+Border Cities:
+Line 23:
+Not Cities:and, all, india, al, an, as, are, best, for, no, make, get, had, santiago de chile, manama, hot, has, was, more, buy, normal, am, never, but, most, al manama, add, makes, not, one, man, bangalore city, name, i, of, mobile, can, fun, the, oral
+Cities:santiago, london, bangalore, st
+Border Cities:city, okay, hindi
+Line 24:
+Not Cities:and, of, all, the, are
+Cities:
+Border Cities:istanbul
+Line 25:
+Not Cities:and, for, i, big, am, at, portland, come, the, mazama
+Cities:
+Border Cities:are
+Line 26:
+Not Cities:and, lbs, run, sub, for, no, i, of, make, dom, am, but, try, as, can, not, latina, the, tell, are
+Cities:orlando, nav, man
+Border Cities:an
+Line 27:
+Not Cities:and, all, india, are, yes, best, city, for, make, shika, bust, add, more, am, but, most, fan, ask, bangalore city, i, of, can, the, at
+Cities:bangalore
+Border Cities:green
+Line 28:
+Not Cities:and, we, for, i, of, am, all, an, are, not, our, the, law, montreal
+Cities:
+Border Cities:
+Line 29:
+Not Cities:and, cos, colorado, for, since, am, hot, can, springs, yes
+Cities:pin, colorado springs
+Border Cities:has
+Line 30:
+Not Cities:of, latina, best
+Cities:city, kansas city, for, no
+Border Cities:
+Line 31:
+Not Cities:and, all, i, hot, mango, are, best, can
+Cities:edmonton
+Border Cities:
+Line 32:
+Not Cities:and, we, for, i, never, am, bust, try, much, can, fun, our, nice
+Cities:vancouver, portland, nav, are
+Border Cities:
+Line 33:
+Not Cities:and, for, get, i, of, am, most, hot, are, got, our, the, save, come, best
+Cities:lbs, osaka, all, new york, york, manhattan
+Border Cities:fun, young
+Line 34:
+Not Cities:and, all, am, as, per, our, yes, are, come, bust, hindi, tie, we, delhi, but, not, lap, i, of, the, oral, at
+Cities:
+Border Cities:owo
+Line 35:
+Not Cities:and, all, bad, can, an, as, our, police, her, no, young, per, cum, more, but, pse, bangkok, wedding, put, man, for, of, tour, she, the
+Cities:thai
+Border Cities:
+Line 36:
+Not Cities:and, cam, for, no, i, of, make, get, am, an, jan, not, as, york, flushing, fun, tall, the, was, side, are
+Cities:bronx, westchester, new york, manhattan
+Border Cities:ny
+Line 37:
+Not Cities:and, all, am, al, an, not, as, are, best, for, no, make, since, had, santiago de chile, manama, hot, get, has, was, more, buy, normal, never, but, most, al manama, ask, one, man, her, i, of, mobile, can, the, oral
+Cities:santiago, london, bangalore, st
+Border Cities:india, add, okay, city
+Line 38:
+Not Cities:and, am, date, as, are, our, yes, best, for, no, since, had, same, has, more, we, never, but, not, day, i, of, put, tour, green, can, the, at
+Cities:victoria, albuquerque, auburn
+Border Cities:
+Line 39:
+Not Cities:and, san juan, all, san, manage, an, are, spa, our, for, lux, make, young, hot, save, nice, bux, run, get, max, never, most, add, not, come, mobile, of, mo, try, turn, can, fun, the
+Cities:city, puerto rico, kansas city, puerto
+Border Cities:hong kong
+Line 40:
+Not Cities:and, all, name, i, chelsea, make, an, fun, let, she, put, the, save, come, best
+Cities:daytona
+Border Cities:
+Line 41:
+Not Cities:and, i, the, for
+Cities:seattle, nav
+Border Cities:
+Line 42:
+Not Cities:and, all, hit, name, for, i, of, nikki, rest, can, the, save, more
+Cities:el paso
+Border Cities:
+Line 43:
+Not Cities:for, no, shy, brooklyn, let, fun, day
+Cities:i, nav, shreveport
+Border Cities:
+Line 44:
+Not Cities:and, city, all, for, i, of, make, but, an, federal, as, are, not, our, the, was
+Cities:johannesburg, owo, logan
+Border Cities:am
+Line 45:
+Not Cities:am, not, our, the, come, best
+Cities:nav, omaha
+Border Cities:nice
+Line 46:
+Not Cities:and, city, all, one, for, i, of, never, am, an, as, are, los angeles, not, our, law, reading, more
+Cities:angeles, the, florida
+Border Cities:los, at
+Line 47:
+Not Cities:and, madison, march, for, since, o, can, has
+Cities:madison heights, yes, detroit, pin
+Border Cities:
+Line 48:
+Not Cities:and, all, for, i, of, am, ask, nav, can, lot, fun
+Cities:seoul
+Border Cities:
+Line 49:
+Not Cities:and, all, san, salt lake, lbs, one, yes, city, usa, top, since, hot, hollywood, more, francisco, gay, west hollywood, most, not, toronto, ltr, male, for, of, ogden, barcelona, green, fun, the, dec, salt
+Cities:elyria, lorain, angeles, los, salt lake city, cleveland, not, oakland
+Border Cities:san francisco, am, los angeles
+
+
+Experiment Results Assuming Borderline Cities As Cities:
+Index:: classified_city_which_is_a_city, classified_city_which_is_not_a_city, city_not_classified_as_city, total_correct_cities
+0: 1, 3, 0, 1
+1: 1, 2, 0, 1
+2: 0, 2, 0, 0
+3: 1, 15, 1, 2
+4: 2, 14, 1, 3
+5: 0, 1, 1, 1
+6: 2, 1, 0, 2
+7: 0, 1, 1, 1
+8: 0, 0, 0, 0
+9: 2, 3, 0, 2
+10: 1, 2, 0, 1
+11: 0, 2, 1, 1
+12: 0, 2, 0, 0
+13: 0, 2, 0, 0
+14: 0, 4, 1, 1
+15: 1, 2, 0, 1
+16: 0, 0, 1, 1
+17: 1, 1, 0, 1
+18: 0, 1, 0, 0
+19: 0, 0, 0, 0
+20: 4, 9, 6, 10
+21: 1, 1, 0, 1
+22: 1, 1, 0, 1
+23: 2, 5, 2, 4
+24: 1, 0, 0, 1
+25: 1, 0, 0, 1
+26: 1, 0, 0, 1
+27: 1, 1, 0, 1
+28: 1, 0, 0, 1
+29: 1, 4, 0, 1
+30: 1, 2, 0, 1
+31: 1, 0, 0, 1
+32: 2, 1, 0, 2
+33: 2, 1, 1, 3
+34: 1, 0, 2, 3
+35: 1, 3, 0, 1
+36: 4, 1, 0, 4
+37: 3, 1, 2, 5
+38: 2, 0, 1, 3
+39: 2, 5, 2, 4
+40: 1, 0, 0, 1
+41: 1, 1, 1, 2
+42: 1, 0, 0, 1
+43: 2, 1, 0, 2
+44: 3, 0, 0, 3
+45: 1, 1, 0, 1
+46: 2, 1, 0, 2
+47: 2, 5, 0, 2
+48: 1, 0, 0, 1
+49: 7, 8, 3, 10
+Total:: 66, 110, 27, 93
+
+Still 27 cities could not be captured as cities
