@@ -51,6 +51,9 @@ Index:: classified_city_which_is_a_city, classified_city_which_is_not_a_city, ci
 49: 5, 3, 5, 10
 Total:: 56, 57, 37, 93
 
+Precision: 0.49557522123
+Recall: 0.60215053763
+
 Details:-
 Experiment:Tag a dictionary extraction as city or not a city
 The model was trained over a random sample set of 7 and run over a manually annotated data set of 50
@@ -59,8 +62,8 @@ Each row is the result of the classification of a set of dictionary extracted ci
 Column Headers:
 classified_city_which_is_a_city: A city which was classified correctly (TP)
 classified_city_which_is_not_a_city: A word not a city classified as city (FP)
-city_not_classified_as_city: A city not classified as a city (TN)
-total_correct_cities: Total count of words which are actually cities (TP+TN)
+city_not_classified_as_city: A city not classified as a city (FN)
+total_correct_cities: Total count of words which are actually cities (TP+FN)
 
 The classification was done into 3 categories: Cities, Not Cities and Borderline Cities (with confidence >=0.4 and <=0.5) 
 

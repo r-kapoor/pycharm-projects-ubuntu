@@ -1,0 +1,125 @@
+Index:: classified_city_which_is_a_city, classified_city_which_is_not_a_city, city_not_classified_as_city, total_correct_cities
+0: 1, 2, 0, 1
+1: 1, 0, 0, 1
+2: 0, 0, 0, 0
+3: 1, 6, 1, 2
+4: 1, 6, 2, 3
+5: 0, 0, 1, 1
+6: 1, 0, 1, 2
+7: 0, 0, 1, 1
+8: 0, 0, 0, 0
+9: 1, 1, 1, 2
+10: 0, 0, 1, 1
+11: 0, 0, 1, 1
+12: 0, 1, 0, 0
+13: 0, 1, 0, 0
+14: 0, 0, 1, 1
+15: 1, 1, 0, 1
+16: 0, 0, 1, 1
+17: 1, 1, 0, 1
+18: 0, 0, 0, 0
+19: 0, 0, 0, 0
+20: 1, 1, 9, 10
+21: 1, 0, 0, 1
+22: 1, 0, 0, 1
+23: 2, 3, 2, 4
+24: 1, 0, 0, 1
+Total:: 14, 23, 22, 36
+
+Precision: 0.378378378378
+Recall: 0.388888888889
+
+Training on 26-50, testing on 1-25
+
+Line 0:
+Not Cities:set, name, for, no, never, young, hot, at, nice, fun, our, get, save, the, say, independence
+Cities:and, i, phoenix
+Border Cities:am
+Line 1:
+Not Cities:and, we, for, of, make, part, bp, are, lot, not, our, the, nav, day, best
+Cities:orlando
+Border Cities:
+Line 2:
+Not Cities:and, all, for, no, i, of, am, not, are, fun, the, law, come
+Cities:
+Border Cities:amd
+Line 3:
+Not Cities:all, montpellier, an, as, rim, tours, are, our, sip, for, anderson, add, granville, alana, has, law, more, we, columbia, elizabeth, get, never, part, let, date, one, gel, center, metro, ottawa, bay, tour, can, fun, the, chelsea, side, at
+Cities:city, art, cypress, vancouver, the city, ski, best
+Border Cities:and, of, stanley, due, most
+Line 4:
+Not Cities:all, montpellier, an, as, rim, tours, are, our, sip, for, wright, add, granville, alana, has, law, more, we, columbia, elizabeth, get, never, part, let, date, one, center, metro, markova, ottawa, bay, tour, can, fun, the, side, at
+Cities:city, art, cypress, vancouver, the city, ski, best
+Border Cities:and, of, due, most, stanley, gel
+Line 5:
+Not Cities:and, no, for, istanbul, cup
+Cities:
+Border Cities:
+Line 6:
+Not Cities:off, daytona, for, get, of, florida, nav, are, along
+Cities:orlando
+Border Cities:central
+Line 7:
+Not Cities:and, more, for, her, not, an, most, as, can, istanbul, fun, the, has, along, she
+Cities:
+Border Cities:jaw
+Line 9:
+Not Cities:and, for, pin, since, calgary, has
+Cities:edmonton, no
+Border Cities:
+Line 10:
+Not Cities:and, bio, all, more, for, i, of, top, delhi, we, but, most, as, can, goes, ask, our, the, has, are
+Cities:
+Border Cities:
+Line 11:
+Not Cities:and, hhr, lbs, francisco, name, for, no, make, young, hot, her, she, all, san francisco, san, tall, at
+Cities:
+Border Cities:
+Line 12:
+Not Cities:and, owo, name, swo, i, bella, cat, as, our, come
+Cities:yes
+Border Cities:
+Line 13:
+Not Cities:and, owo, name, swo, i, bella, cat, as, our, come
+Cities:yes
+Border Cities:
+Line 14:
+Not Cities:and, all, can, one, our, police, for, no, young, per, tina, cum, has, was, more, bangkok, wedding, an, man, her, i, of, tour, she, the, nice
+Cities:
+Border Cities:thai
+Line 15:
+Not Cities:and, i, am, soul, an, add, tall, yes, best, man
+Cities:bangalore, india
+Border Cities:bust
+Line 16:
+Not Cities:london, are, no
+Cities:
+Border Cities:
+Line 17:
+Not Cities:and, for, no, bust, add, can, yes, man, are
+Cities:bangalore, india
+Border Cities:
+Line 18:
+Not Cities:and, all, i, of, am, an, as, at, not
+Cities:
+Border Cities:the
+Line 20:
+Not Cities:and, houston, all, san, washington, stat, san francisco, tan, for, make, much, new york city, orange, nyc, hollywood, manhattan, we, gay, normal, big, west hollywood, most, york, new york, of, humble, bay, angeles, long beach, can, los angeles, fun, the, male, sf
+Cities:city, yuba city
+Border Cities:francisco, i, sacramento, young, los, washington dc, tall
+Line 21:
+Not Cities:and, all, an, tui, nav, the, best
+Cities:omaha
+Border Cities:hot
+Line 22:
+Not Cities:drama, no, nav, for, more
+Cities:shreveport
+Border Cities:
+Line 23:
+Not Cities:and, all, india, al, an, as, are, best, city, for, no, make, get, had, santiago de chile, hot, has, was, more, buy, okay, normal, never, but, most, al manama, add, makes, not, one, man, bangalore city, name, i, of, st, mobile, can, the, oral
+Cities:manama, santiago, london, bangalore, am
+Border Cities:fun, hindi
+Line 24:
+Not Cities:and, of, all, the, are
+Cities:istanbul
+Border Cities:

@@ -1,0 +1,133 @@
+Index:: classified_city_which_is_a_city, classified_city_which_is_not_a_city, city_not_classified_as_city, total_correct_cities
+0: 0, 0, 1, 1
+1: 1, 2, 0, 1
+2: 1, 0, 0, 1
+3: 0, 0, 1, 1
+4: 0, 0, 1, 1
+5: 0, 0, 1, 1
+6: 0, 0, 1, 1
+7: 1, 0, 1, 2
+8: 2, 0, 1, 3
+9: 1, 1, 2, 3
+10: 0, 0, 1, 1
+11: 0, 1, 4, 4
+12: 2, 3, 3, 5
+13: 1, 2, 2, 3
+14: 1, 4, 3, 4
+15: 1, 0, 0, 1
+16: 1, 0, 1, 2
+17: 1, 0, 0, 1
+18: 1, 1, 1, 2
+19: 0, 0, 3, 3
+20: 1, 0, 0, 1
+21: 0, 2, 2, 2
+22: 0, 0, 2, 2
+23: 1, 0, 0, 1
+24: 6, 3, 4, 10
+Total:: 22, 19, 35, 57
+
+Precision: 0.536585365854
+Recall: 0.385964912281
+
+Training on 1-25, testing on 26-50
+
+Line 0:
+Not Cities:and, for, i, big, am, mazama, portland, come, the, are, at
+Cities:
+Border Cities:
+Line 1:
+Not Cities:lbs, run, sub, for, of, make, but, an, try, as, nav, can, not, latina, the, man, tell, are
+Cities:am, orlando, no
+Border Cities:and, i, dom
+Line 2:
+Not Cities:and, all, am, are, yes, best, city, for, make, shika, bust, add, more, india, but, most, fan, bangalore city, i, of, can, the, at
+Cities:bangalore
+Border Cities:ask, green
+Line 3:
+Not Cities:we, for, i, am, all, an, are, not, our, the, law, montreal
+Cities:
+Border Cities:and, of
+Line 4:
+Not Cities:and, cos, colorado, pin, since, am, for, hot, can, springs, yes, has, colorado springs
+Cities:
+Border Cities:
+Line 5:
+Not Cities:of, latina, no
+Cities:
+Border Cities:city, kansas city, best, for
+Line 6:
+Not Cities:and, all, i, edmonton, hot, mango, are, can
+Cities:
+Border Cities:best
+Line 7:
+Not Cities:and, we, for, i, never, am, bust, try, much, vancouver, can, fun, our, nav, are, nice
+Cities:portland
+Border Cities:
+Line 8:
+Not Cities:and, lbs, for, i, of, am, all, young, most, hot, york, got, fun, our, the, save, come, are
+Cities:new york, manhattan
+Border Cities:osaka, best, get
+Line 9:
+Not Cities:and, all, are, i, of, am, owo, but, lap, per, we, hindi, our, not, tie, the, come, yes, as, at
+Cities:delhi, bust
+Border Cities:oral
+Line 10:
+Not Cities:and, all, can, young, as, our, police, her, no, bad, per, cum, more, but, pse, wedding, put, thai, an, man, for, tour, she, the
+Cities:
+Border Cities:bangkok, of
+Line 11:
+Not Cities:and, am, an, as, are, for, no, make, jan, ny, new york, flushing, was, manhattan, get, bronx, not, westchester, i, of, cam, fun
+Cities:tall
+Border Cities:the, york, side
+Line 12:
+Not Cities:and, all, am, al, an, not, are, best, city, her, no, make, since, had, add, manama, hot, normal, has, was, more, santiago, buy, okay, get, never, but, most, ask, one, man, i, of, st, mobile, can, oral
+Cities:bangalore, the, london, santiago de chile, al manama
+Border Cities:as, india, for
+Line 13:
+Not Cities:and, am, put, as, are, our, yes, best, for, no, since, had, same, has, more, we, never, albuquerque, but, victoria, not, day, i, can, the, at
+Cities:of, green, auburn
+Border Cities:date, tour
+Line 14:
+Not Cities:and, san juan, all, san, manage, an, spa, our, for, make, young, hot, puerto rico, puerto, save, nice, bux, run, get, max, never, not, come, mobile, mo, try, turn, can, fun, the
+Cities:lux, of, hong kong, are, most
+Border Cities:city, add, kansas city
+Line 15:
+Not Cities:and, all, name, i, chelsea, make, an, fun, let, she, put, the, save, come, best
+Cities:daytona
+Border Cities:
+Line 16:
+Not Cities:and, i, the, nav, for
+Cities:seattle
+Border Cities:
+Line 17:
+Not Cities:and, hit, name, for, i, of, nikki, rest, can, the, save, more
+Cities:el paso
+Border Cities:all
+Line 18:
+Not Cities:for, no, i, shy, brooklyn, let, day
+Cities:fun, shreveport
+Border Cities:nav
+Line 19:
+Not Cities:city, all, for, i, of, make, am, owo, but, an, federal, johannesburg, are, logan, our, was, as
+Cities:
+Border Cities:and, not, the
+Line 20:
+Not Cities:am, nav, not, our, the, come, best, nice
+Cities:omaha
+Border Cities:
+Line 21:
+Not Cities:one, city, all, reading, i, of, never, am, an, more, as, are, not, our, law, at
+Cities:angeles, the
+Border Cities:and, los, florida, los angeles, for
+Line 22:
+Not Cities:and, madison, march, pin, madison heights, detroit, for, o, yes, has, can
+Cities:
+Border Cities:since
+Line 23:
+Not Cities:and, all, for, ask, nav, can, lot, fun
+Cities:seoul
+Border Cities:i, of, am
+Line 24:
+Not Cities:and, all, san, salt lake, am, lbs, one, salt lake city, yes, city, usa, top, since, hot, more, francisco, gay, most, not, toronto, ltr, male, for, of, ogden, barcelona, angeles, fun, the, dec, salt
+Cities:city, elyria, lorain, west hollywood, los, los angeles, cleveland, yes, oakland
+Border Cities:usa, hollywood, hot, green, salt lake, san francisco, the, salt, yes

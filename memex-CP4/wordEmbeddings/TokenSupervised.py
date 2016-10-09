@@ -1166,15 +1166,15 @@ class TokenSupervised:
             #We do feature selection.
             
             #Using All Data As Training Data
-            #data_dict = TokenSupervised._prepare_all_data_as_train(pos_neg_file)
+            data_dict = TokenSupervised._prepare_all_data_as_train(pos_neg_file)
             #model_dict['k_best'] = TokenSupervised._select_k_best_features_with_no_testdata(data_dict, k=20)
 
             #---For Testing----
             #Using Random Sample as Training Data
-            data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
+            #data_dict = TokenSupervised._prepare_train_test_data(pos_neg_file)
             #model_dict['k_best'] = TokenSupervised._select_k_best_features(data_dict, k=20)
-            del data_dict['test_data']
-            del data_dict['test_labels']
+            #del data_dict['test_data']
+            #del data_dict['test_labels']
             #------------
 
             data_dict['classifier_model'] = 'random_forest'

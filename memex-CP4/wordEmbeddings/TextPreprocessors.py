@@ -322,7 +322,7 @@ class TextPreprocessors:
                 annotated_cities = set(obj['annotated_cities'])
                 classified_as_cities = classified_cities[index]['cities']
                 classified_as_borderline = classified_cities[index]['borderline_cities']
-                classified_as_cities = classified_as_cities | classified_as_borderline
+                #classified_as_cities = classified_as_cities | classified_as_borderline
                 classified_as_not_cities = classified_cities[index]['not_cities']
                 total_annotated_cities = len(classified_as_cities) + len(classified_as_borderline) + len(classified_as_not_cities)
                 total_cities_provided = len(annotated_cities)
@@ -349,9 +349,13 @@ class TextPreprocessors:
                 #print classified_city_which_is_not_a_city
                 #print city_not_classified_as_city
 
-        print "{}: {}, {}, {}, {}".format("Total:", total_classified_city_which_is_a_city,
+        print "{}: {}, {}, {}, {}\n".format("Total:", total_classified_city_which_is_a_city,
             total_classified_city_which_is_not_a_city, total_city_not_classified_as_city, 
             total_correct_cities)
+
+        print "Precision: {}".format(float(total_classified_city_which_is_a_city)/(total_classified_city_which_is_a_city+total_classified_city_which_is_not_a_city))
+        print "Recall: {}".format(float(total_classified_city_which_is_a_city)/(total_classified_city_which_is_a_city+total_city_not_classified_as_city))
+
                 
 # path='/Users/mayankkejriwal/ubuntu-vm-stuff/home/mayankkejriwal/tmp/'
 # TextPreprocessors.preprocess_annotated_cities_file(path+'raw-data/annotated-cities-2.json',
