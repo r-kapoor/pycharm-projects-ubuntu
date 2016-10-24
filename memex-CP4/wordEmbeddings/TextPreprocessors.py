@@ -56,7 +56,7 @@ class TextPreprocessors:
         :return: A list of tokens.
         """
         list_of_sentences = list()
-
+        
         #print obj['readability_text']
         if field not in obj:
             return None
@@ -322,7 +322,7 @@ class TextPreprocessors:
                 annotated_cities = set(obj['annotated_cities'])
                 classified_as_cities = classified_cities[index]['cities']
                 classified_as_borderline = classified_cities[index]['borderline_cities']
-                #classified_as_cities = classified_as_cities | classified_as_borderline
+                classified_as_cities = classified_as_cities | classified_as_borderline
                 classified_as_not_cities = classified_cities[index]['not_cities']
                 total_annotated_cities = len(classified_as_cities) + len(classified_as_borderline) + len(classified_as_not_cities)
                 total_cities_provided = len(annotated_cities)

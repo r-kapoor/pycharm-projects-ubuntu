@@ -106,8 +106,13 @@ class TokenSupervised:
         out = codecs.open(output_file, 'w', 'utf-8')
         with codecs.open(preprocessed_file, 'r', 'utf-8') as f:
             for line in f:
+                words_covered = set()
                 obj = json.loads(line)
                 for word in obj[annotated_field]:
+                    if(word in words_covered):
+                       continue
+                    else:
+                       words_covered.add(word)
                     word_tokens = TextPreprocessors.TextPreprocessors.tokenize_string(word)
                     if len(word_tokens) <= 1: # we're dealing with a single word
                         if word not in obj[text_field]:
@@ -125,17 +130,34 @@ class TokenSupervised:
                         print 'context_generator did not return anything for word: ',
                         print word
                         continue
+                    count = 0
+                    context_vecs_for_word = None
                     for context_vec in context_vecs:
-                        if word in obj[correct_field]:
-                            out.write(word + '\t' + str(context_vec) + '\t1\n')
+                        count+=1
+                    #    print context_vec
+                        if (context_vecs_for_word is None):
+                            context_vecs_for_word = np.array(context_vec)
                         else:
-                            out.write(word + '\t' + str(context_vec) + '\t0\n')
+                            context_vecs_for_word = np.vstack((context_vecs_for_word, context_vec))
+
+                    #print context_vecs_for_word
+                    if(count > 1):
+                        combined_context_vec = context_vecs_for_word.sum(axis=0)
+                        combined_context_vec = combined_context_vec/count
+                    else:
+                        combined_context_vec = context_vecs_for_word
+
+                    if word in obj[correct_field]:
+                        out.write(word + '\t' + str(combined_context_vec.tolist()) + '\t1\n')
+                    else:
+                        out.write(word + '\t' + str(combined_context_vec.tolist()) + '\t0\n')
 
         out.close()
 
     @staticmethod
     def prep_preprocessed_actual_file_for_classification(preprocessed_file, embeddings_file,
-                                            output_file, context_generator, text_field, annotated_field):
+                                            output_file, context_generator, text_field, annotated_field
+                                            ,correct_field):
         """
         Meant for prepping a preprocessed annotated tokens file (e.g. a file output by  into something that is
         amenable to the ML experiments such as in supervised-exp-datasets.
@@ -155,8 +177,13 @@ class TokenSupervised:
         out = codecs.open(output_file, 'w', 'utf-8')
         with codecs.open(preprocessed_file, 'r', 'utf-8') as f:
             for index,line in enumerate(f):
+                words_covered = set()
                 obj = json.loads(line)
                 for word in obj[annotated_field]:
+                    if(word in words_covered):
+                       continue
+                    else:
+                       words_covered.add(word)
                     word_tokens = TextPreprocessors.TextPreprocessors.tokenize_string(word)
                     if len(word_tokens) <= 1: # we're dealing with a single word
                         if word not in obj[text_field]:
@@ -174,8 +201,30 @@ class TokenSupervised:
                         print 'context_generator did not return anything for word: ',
                         print word
                         continue
+
+                    count = 0
+                    context_vecs_for_word = None
                     for context_vec in context_vecs:
-                        out.write(word + '\t' + str(context_vec) + '\t0' + '\t'+str(index)+'\n')
+                        count+=1
+                    #    print context_vec
+                        if (context_vecs_for_word is None):
+                            context_vecs_for_word = np.array(context_vec)
+                        else:
+                            context_vecs_for_word = np.vstack((context_vecs_for_word, context_vec))
+
+                    #print context_vecs_for_word
+                    if(count > 1):
+                        combined_context_vec = context_vecs_for_word.sum(axis=0)
+                        combined_context_vec = combined_context_vec/count
+                    else:
+                        combined_context_vec = context_vecs_for_word
+                    combined_context_vec = combined_context_vec.tolist()
+                    
+                    if word in obj[correct_field]:
+                        out.write(word + '\t' + str(combined_context_vec) + '\t1' + '\t'+str(index)+'\n')
+                    else:
+                        out.write(word + '\t' + str(combined_context_vec) + '\t0' + '\t'+str(index)+'\n')
+                        
 
         out.close()
 
@@ -374,7 +423,6 @@ class TokenSupervised:
             for line in f:
                 line = line[0:-1]
                 cols = re.split('\t',line)
-                # print list(cols[1])
                 # break
                 if int(cols[2]) == 1:
                     pos_features.append(TokenSupervised._convert_string_to_float_list(cols[1]))
@@ -407,7 +455,7 @@ class TokenSupervised:
                 # break
                 features.append(TokenSupervised._convert_string_to_float_list(cols[1]))
                 words.append(cols[0])
-                labels.append(0)
+                labels.append(int(cols[2]))
                 line_num.append(cols[3])
 
         result[0] = TokenSupervised._l2_norm_on_matrix(np.matrix(features))
@@ -599,7 +647,7 @@ class TokenSupervised:
         return results
     
     @staticmethod
-    def _prepare_train_test_data(pos_neg_file, train_percent = 0.3, randomize=True, balanced_training=True,
+    def _prepare_train_test_data(pos_neg_file, train_percent = 0.9, randomize=True, balanced_training=True,
                                  data_vectors=None):
         """
 
@@ -926,6 +974,52 @@ class TokenSupervised:
         return predicted_probs
 
     @staticmethod
+    def _plot_from_probabilities(actual_labels, predicted_probabilities):
+        y_true = np.array(actual_labels)
+        y_scores = np.array(predicted_probabilities)
+        y_scores = y_scores[:,1]
+        #print y_true
+        #print y_scores
+
+        precision, recall, thresholds = precision_recall_curve(y_true, y_scores)
+
+        TokenSupervised._plot_precision_recall(recall, precision)
+        #TokenSupervised._plot_thresholds_recall(recall, thresholds)
+
+
+    @staticmethod
+    def _plot_precision_recall(recall, precision):
+        """
+        :param recall:
+        :param precision:
+        :return:
+        """
+        #Plot Graph
+        plt.clf()
+        plt.plot(recall, precision, lw=2, color='navy', label='Precision-Recall curve')
+        plt.xlabel('Recall')
+        plt.ylabel('Precision')
+        plt.ylim([0.0, 1.05])
+        plt.xlim([0.0, 1.05])
+        plt.show()
+
+    @staticmethod
+    def _plot_thresholds_recall(recall, thresholds):
+        """
+        :param recall:
+        :param precision:
+        :return:
+        """
+        #Plot Graph
+        plt.clf()
+        plt.plot(recall, np.append(thresholds, np.array([1])), lw=2, color='navy', label='Thresholds-Recall curve')
+        plt.xlabel('Recall')
+        plt.ylabel('Thresholds')
+        plt.ylim([0.0, 1.05])
+        plt.xlim([0.0, 1.05])
+        plt.show()
+
+    @staticmethod
     def _classify(model, test_data, test_labels, words, line_num, classifier_model):
         """
         Takes the model and data to classify the data
@@ -949,45 +1043,139 @@ class TokenSupervised:
         set_borderline = set()
 
         classified_cities = list()
-        
+
+        overall_actual_labels = list()
+        overall_predicted_probabilities = list()
+
+        #COMBINE NEW-----------------------
+        combined_city_dict = {}
+        combined_city_name = []
+        combined_city_predicted_label = []
+        combined_city_predicted_probability = []
+        combined_city_actual_label = []
+        combined_city_occurence_counts = []
         for i in range(0,len(words)):
-            #print line_num[i]
             if(line_num[i] != curr_line_num):
-                set_0 = set_0 - set_1 - set_borderline
-                set_borderline = set_borderline - set_1
-                print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1)
-                    , ', '.join(set_borderline))
+                #Moving to next jline
                 classified_cities_dict = {}
-                classified_cities_dict['cities'] = set_1
-                classified_cities_dict['borderline_cities'] = set_borderline
-                classified_cities_dict['not_cities'] = set_0
+                classified_cities_dict['cities'] = set()
+                classified_cities_dict['borderline_cities'] = set()
+                classified_cities_dict['not_cities'] = set()
+                for city, index in combined_city_dict.iteritems():
+                    if(combined_city_predicted_probability[index][1]>0.5):
+                        classified_cities_dict['cities'].add(city)
+                    else:
+                        classified_cities_dict['not_cities'].add(city)
+                print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(classified_cities_dict['not_cities']),
+                    ', '.join(classified_cities_dict['cities']), ', '.join(classified_cities_dict['borderline_cities']))
                 classified_cities.append(classified_cities_dict)
-                set_0 = set()
-                set_1 = set()
-                set_borderline = set()
+
+                overall_actual_labels = overall_actual_labels + combined_city_actual_label
+                overall_predicted_probabilities = overall_predicted_probabilities + combined_city_predicted_probability
+                combined_city_dict = {}
+                combined_city_name = []
+                combined_city_predicted_label = []
+                combined_city_predicted_probability = []
+                combined_city_actual_label = []
+                combined_city_occurence_counts = []
+
                 for k in range(1,int(line_num[i]) - int(curr_line_num)):
                     classified_cities.append({'cities': set(), 'borderline_cities': set(), 'not_cities': set()})
                 curr_line_num = line_num[i]
-            if(predicted_labels[i] == 0):
-                if(predicted_probabilities[i][0] <= 0.6):
-                    set_borderline.add(words[i])
-                    #print words[i] + str(predicted_probabilities[i])
-                else:
-                    set_0.add(words[i])
+            if(words[i] not in combined_city_dict):
+                print words[i]
+                print predicted_probabilities[i][1]
+                index = len(combined_city_name)                
+                combined_city_dict[words[i]] = index
+                combined_city_name.append(words[i])
+                combined_city_predicted_label.append(predicted_labels[i])
+                combined_city_predicted_probability.append(predicted_probabilities[i])
+                combined_city_actual_label.append(test_labels[i])
+                combined_city_occurence_counts.append(1)
             else:
-                set_1.add(words[i])
+                #print "REPEAT"
+                index = combined_city_dict[words[i]]
+                if(combined_city_actual_label[index] != test_labels[i]):
+                    "ASSUMPTION WRONG"
+                #Combining Logic 1 - Max Of Probability
+                #if(predicted_probabilities[i][1] != combined_city_predicted_probability[index][1]):
+                #    print "REPEAT:" + words[i]
+                #    print predicted_probabilities[i][1]
+                #    print combined_city_predicted_probability[index][1]
+
+                if(combined_city_predicted_probability[index][1] < predicted_probabilities[i][1]):
+                    combined_city_predicted_probability[index][1] = predicted_probabilities[i][1]
+
+                #Combining Logic 2 - Average of Probability
+                #combined_city_predicted_probability[index][1] = (combined_city_predicted_probability[index][1] * 
+                #    combined_city_occurence_counts[index] + predicted_probabilities[i][1])/(combined_city_occurence_counts[index] + 1)
+
+                #Combining Logic 3 - Min of Probability
+                #if(combined_city_predicted_probability[index][1] > predicted_probabilities[i][1]):
+                #    combined_city_predicted_probability[index][1] = predicted_probabilities[i][1]
+                combined_city_occurence_counts[index] = combined_city_occurence_counts[index] + 1
+                #print combined_city_occurence_counts[index]
+
+
+
+        #COMBINE OLD------------------------
+        # for i in range(0,len(words)):
+        #     #print line_num[i]
+        #     if(line_num[i] != curr_line_num):
+        #         set_0 = set_0 - set_1 - set_borderline
+        #         set_borderline = set_borderline - set_1
+        #         print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1)
+        #             , ', '.join(set_borderline))
+        #         classified_cities_dict = {}
+        #         classified_cities_dict['cities'] = set_1
+        #         classified_cities_dict['borderline_cities'] = set_borderline
+        #         classified_cities_dict['not_cities'] = set_0
+        #         classified_cities.append(classified_cities_dict)
+        #         set_0 = set()
+        #         set_1 = set()
+        #         set_borderline = set()
+        #         for k in range(1,int(line_num[i]) - int(curr_line_num)):
+        #             classified_cities.append({'cities': set(), 'borderline_cities': set(), 'not_cities': set()})
+        #         curr_line_num = line_num[i]
+        #     if(predicted_labels[i] == 0):
+        #         if(predicted_probabilities[i][0] <= 0.6):
+        #             set_borderline.add(words[i])
+        #             #print words[i] + str(predicted_probabilities[i])
+        #         else:
+        #             set_0.add(words[i])
+        #     else:
+        #         set_1.add(words[i])
             #print test_data[i]
             #print predicted_labels[i]
             #print predicted_probabilities[i]
-        print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1)
-                    , ', '.join(set_borderline))
+        #print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1)
+        #            , ', '.join(set_borderline))
         classified_cities_dict = {}
-        classified_cities_dict['cities'] = set_1
-        classified_cities_dict['borderline_cities'] = set_borderline
-        classified_cities_dict['not_cities'] = set_0
+        classified_cities_dict['cities'] = set()
+        classified_cities_dict['borderline_cities'] = set()
+        classified_cities_dict['not_cities'] = set()
+        for city, index in combined_city_dict.iteritems():
+            if(combined_city_predicted_probability[index][1]>0.5):
+                classified_cities_dict['cities'].add(city)
+            else:
+                classified_cities_dict['not_cities'].add(city)
+        print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(classified_cities_dict['not_cities']),
+            ', '.join(classified_cities_dict['cities']), ', '.join(classified_cities_dict['borderline_cities']))
         classified_cities.append(classified_cities_dict)
+
+        prf = ['Precision: ', 'Recall: ', 'F-score: ', 'Support: ']
+        print 'Class 0\tClass 1'
+        k = precision_recall_fscore_support(test_labels, predicted_labels)
+        for i in range(0, len(k)):
+            print prf[i],
+            print k[i]        
+
+        TokenSupervised._plot_from_probabilities(test_labels, predicted_probabilities)
+        TokenSupervised._plot_from_probabilities(overall_actual_labels, overall_predicted_probabilities)
+
         print len(classified_cities)
         return classified_cities
+
 
     @staticmethod
     def _train_classifier(train_data, train_labels, classifier_model):
