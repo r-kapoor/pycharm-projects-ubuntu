@@ -8,12 +8,13 @@ import codecs
 #TRAINING_FILE = 'annotated-cities-1.json'
 #TRAINING_FILE = 'annotations_with_alt_1-25.json'
 #TRAINING_FILE = 'annotations_with_alt_26-50.json'
-TRAINING_FILE = 'annotations_actual_file.json'
+TRAINING_FILE = 'manual_50.jl'
+#TRAINING_FILE = 'annotations_actual_file.json'
 #TRAINING_FILE = 'train.json'
 
 #ACTUAL_FILE = 'annotated-cities-1.json'
 #ACTUAL_FILE = 'annotations_with_alt_26-50.json'
-ACTUAL_FILE = 'annotations_actual_file.json'
+ACTUAL_FILE = 'manual_50.jl'
 #ACTUAL_FILE = 'test.json'
 #ACTUAL_FILE = 'annotations_with_alt_1-25.json'
 #ACTUAL_FILE = 'annotations_unseen_sample.json'
@@ -85,9 +86,9 @@ def classification_script(pos_neg_file_training, pos_neg_file_actual_data):
     return TokenSupervised.TokenSupervised.classify_data(model, pos_neg_file_actual_data)
 
 path = os.path.dirname(os.path.abspath(__file__)) + '/'+DATA_FOLDER+'/'
-data_preparation_for_training_data(path+TRAINING_FILE, path+UNIGRAM_FILE,'high_recall_readability_text', 'annotated_cities', 
+data_preparation_for_training_data(path+TRAINING_FILE, path+UNIGRAM_FILE,'readability_text', 'annotated_cities', 
     'correct_cities', path+'output_folder/')
-data_preparation_for_actual_data(path+ACTUAL_FILE, path+UNIGRAM_FILE,'high_recall_readability_text', 'annotated_cities', 
+data_preparation_for_actual_data(path+ACTUAL_FILE, path+UNIGRAM_FILE,'readability_text', 'annotated_cities', 
     path+'output_folder/', 'correct_cities')
 classified_cities = classification_script(path+'output_folder/pos-neg-train.txt', path+'output_folder/pos-neg-actual.txt')
 post_processing(classified_cities, path+ACTUAL_FILE)

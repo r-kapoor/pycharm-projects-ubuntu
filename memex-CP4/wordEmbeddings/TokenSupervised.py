@@ -109,10 +109,10 @@ class TokenSupervised:
                 words_covered = set()
                 obj = json.loads(line)
                 for word in obj[annotated_field]:
-                    #if(word in words_covered):
-                    #   continue
-                    #else:
-                    #   words_covered.add(word)
+                    if(word in words_covered):
+                        continue
+                    else:
+                        words_covered.add(word)
                     word_tokens = TextPreprocessors.TextPreprocessors.tokenize_string(word)
                     if len(word_tokens) <= 1: # we're dealing with a single word
                         if word not in obj[text_field]:
@@ -995,13 +995,13 @@ class TokenSupervised:
         :return:
         """
         #Plot Graph
-        plt.clf()
-        plt.plot(recall, precision, lw=2, color='navy', label='Precision-Recall curve')
-        plt.xlabel('Recall')
-        plt.ylabel('Precision')
-        plt.ylim([0.0, 1.05])
-        plt.xlim([0.0, 1.05])
-        plt.show()
+        #plt.clf()
+        #plt.plot(recall, precision, lw=2, color='navy', label='Precision-Recall curve')
+        #plt.xlabel('Recall')
+        #plt.ylabel('Precision')
+        #plt.ylim([0.0, 1.05])
+        #plt.xlim([0.0, 1.05])
+        #plt.show()
 
     @staticmethod
     def _plot_thresholds_recall(recall, thresholds):
@@ -1020,7 +1020,7 @@ class TokenSupervised:
         plt.show()
 
     @staticmethod
-    def _classify(model, test_data, test_labels, words, line_num, classifier_model):
+    def _classify(model, test_data, test_labels, words, line_num, classifier_model, ranking = False):
         """
         Takes the model and data to classify the data
         This method is for BINARY CLASSIFICATION only, although there is some support for regression.
@@ -1048,12 +1048,15 @@ class TokenSupervised:
         overall_predicted_probabilities = list()
 
         #COMBINE NEW-----------------------
+        combined_all_data = []
+        combined_data_dict = dict()
         combined_city_dict = {}
         combined_city_name = []
         combined_city_predicted_label = []
         combined_city_predicted_probability = []
         combined_city_actual_label = []
         combined_city_occurence_counts = []
+        combined_city_negative_prob = []
         for i in range(0,len(words)):
             if(line_num[i] != curr_line_num):
                 #Moving to next jline
@@ -1070,12 +1073,19 @@ class TokenSupervised:
                     ', '.join(classified_cities_dict['cities']), ', '.join(classified_cities_dict['borderline_cities']))
                 classified_cities.append(classified_cities_dict)
 
+                combined_data_dict = {'combined_city_name':combined_city_name, 'combined_city_predicted_label': combined_city_predicted_label,
+                'combined_city_predicted_probability': combined_city_predicted_probability, 'combined_city_actual_label':combined_city_actual_label,
+                'combined_city_occurence_counts': combined_city_occurence_counts, 'combined_city_negative_prob': combined_city_negative_prob}
+
+                combined_all_data.append(combined_data_dict)
+
                 overall_actual_labels = overall_actual_labels + combined_city_actual_label
                 overall_predicted_probabilities = overall_predicted_probabilities + combined_city_predicted_probability
                 combined_city_dict = {}
                 combined_city_name = []
                 combined_city_predicted_label = []
                 combined_city_predicted_probability = []
+                combined_city_negative_prob = []
                 combined_city_actual_label = []
                 combined_city_occurence_counts = []
 
@@ -1090,6 +1100,7 @@ class TokenSupervised:
                 combined_city_name.append(words[i])
                 combined_city_predicted_label.append(predicted_labels[i])
                 combined_city_predicted_probability.append(predicted_probabilities[i])
+                combined_city_negative_prob.append(predicted_probabilities[i][0])
                 combined_city_actual_label.append(test_labels[i])
                 combined_city_occurence_counts.append(1)
             else:
@@ -1116,40 +1127,6 @@ class TokenSupervised:
                 combined_city_occurence_counts[index] = combined_city_occurence_counts[index] + 1
                 #print combined_city_occurence_counts[index]
 
-
-
-        #COMBINE OLD------------------------
-        # for i in range(0,len(words)):
-        #     #print line_num[i]
-        #     if(line_num[i] != curr_line_num):
-        #         set_0 = set_0 - set_1 - set_borderline
-        #         set_borderline = set_borderline - set_1
-        #         print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1)
-        #             , ', '.join(set_borderline))
-        #         classified_cities_dict = {}
-        #         classified_cities_dict['cities'] = set_1
-        #         classified_cities_dict['borderline_cities'] = set_borderline
-        #         classified_cities_dict['not_cities'] = set_0
-        #         classified_cities.append(classified_cities_dict)
-        #         set_0 = set()
-        #         set_1 = set()
-        #         set_borderline = set()
-        #         for k in range(1,int(line_num[i]) - int(curr_line_num)):
-        #             classified_cities.append({'cities': set(), 'borderline_cities': set(), 'not_cities': set()})
-        #         curr_line_num = line_num[i]
-        #     if(predicted_labels[i] == 0):
-        #         if(predicted_probabilities[i][0] <= 0.6):
-        #             set_borderline.add(words[i])
-        #             #print words[i] + str(predicted_probabilities[i])
-        #         else:
-        #             set_0.add(words[i])
-        #     else:
-        #         set_1.add(words[i])
-            #print test_data[i]
-            #print predicted_labels[i]
-            #print predicted_probabilities[i]
-        #print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(set_0), ', '.join(set_1)
-        #            , ', '.join(set_borderline))
         classified_cities_dict = {}
         classified_cities_dict['cities'] = set()
         classified_cities_dict['borderline_cities'] = set()
@@ -1162,6 +1139,11 @@ class TokenSupervised:
         print "Line {}:\nNot Cities:{}\nCities:{}\nBorder Cities:{}".format(curr_line_num, ', '.join(classified_cities_dict['not_cities']),
             ', '.join(classified_cities_dict['cities']), ', '.join(classified_cities_dict['borderline_cities']))
         classified_cities.append(classified_cities_dict)
+        combined_data_dict = {'combined_city_name':combined_city_name, 'combined_city_predicted_label': combined_city_predicted_label,
+                'combined_city_predicted_probability': combined_city_predicted_probability, 'combined_city_actual_label':combined_city_actual_label,
+                'combined_city_occurence_counts': combined_city_occurence_counts, 'combined_city_negative_prob': combined_city_negative_prob}
+
+        combined_all_data.append(combined_data_dict)
 
         prf = ['Precision: ', 'Recall: ', 'F-score: ', 'Support: ']
         print 'Class 0\tClass 1'
@@ -1174,7 +1156,8 @@ class TokenSupervised:
         TokenSupervised._plot_from_probabilities(overall_actual_labels, overall_predicted_probabilities)
 
         print len(classified_cities)
-        return classified_cities
+        print combined_all_data
+        return {'classified_cities':classified_cities, 'combined_all_data':combined_all_data}
 
 
     @staticmethod

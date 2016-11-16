@@ -3,6 +3,10 @@ import json
 from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 import nltk
+from scipy.stats import rankdata
+import numpy as np
+import random
+
 
 
 class TextPreprocessors:
@@ -56,7 +60,7 @@ class TextPreprocessors:
         :return: A list of tokens.
         """
         list_of_sentences = list()
-        
+
         #print obj['readability_text']
         if field not in obj:
             return None
@@ -306,7 +310,80 @@ class TextPreprocessors:
         out.close()
 
     @staticmethod
-    def post_processing(classified_cities, actual_data_file):
+    def get_rankings(data):
+        return rankdata(data, method='dense')
+
+    @staticmethod
+    def get_reverse_ranking(labels, rankings):
+        min_rank_of_correct_city = len(labels)
+        max_rank_of_correct_city = 1
+        for city_index, label in enumerate(labels):
+            if(label == 1):
+                #It is a correct city
+                if(rankings[city_index] < min_rank_of_correct_city):
+                    min_rank_of_correct_city = rankings[city_index]
+
+                if(rankings[city_index] > max_rank_of_correct_city):
+                    max_rank_of_correct_city = rankings[city_index]
+        print min_rank_of_correct_city
+        print max_rank_of_correct_city
+        reverse_min_rank = 1/min_rank_of_correct_city
+        reverse_max_rank = 1/max_rank_of_correct_city
+                
+        return {'min':reverse_min_rank, 'max':reverse_max_rank}
+
+
+    @staticmethod
+    def post_processing(classified_cities, actual_data_file, ranking = True):
+        combined_all_data = classified_cities['combined_all_data']
+
+        if(ranking):
+            reverse_min_ranks = []
+            reverse_max_ranks = []
+            random_reverse_min_ranks = []
+            random_reverse_max_ranks = []
+            for data_obj in combined_all_data:
+                city_names = data_obj['combined_city_name']
+                negative_class_prob = data_obj['combined_city_negative_prob']
+                actual_labels = data_obj['combined_city_actual_label']
+                rankings = TextPreprocessors.get_rankings(negative_class_prob)
+                random_rankings = range(1,len(actual_labels)+1) 
+                random.shuffle(random_rankings)
+
+                print city_names
+                print actual_labels
+                print rankings
+
+                reverse_ranks = TextPreprocessors.get_reverse_ranking(actual_labels, rankings)
+
+                reverse_max_ranks.append(reverse_ranks['max'])
+                reverse_min_ranks.append(reverse_ranks['min'])
+
+                random_reverse_ranks = TextPreprocessors.get_reverse_ranking(actual_labels, random_rankings)
+                random_reverse_max_ranks.append(random_reverse_ranks['max'])
+                random_reverse_min_ranks.append(random_reverse_ranks['min'])
+
+
+            print "MRR (Max Ranks):",
+            print np.mean(reverse_max_ranks)
+            print "MRR (Min Ranks):",
+            print np.mean(reverse_min_ranks)
+
+            print "Random MRR (Max Ranks):",
+            print np.mean(random_reverse_max_ranks)
+            print "Random MRR (Min Ranks):",
+            print np.mean(random_reverse_min_ranks)
+
+
+
+
+
+
+
+
+
+
+        classified_cities = classified_cities['classified_cities']
         print "Length:"+str(len(classified_cities))
         print "{}: {}, {}, {}, {}".format("Index:", "classified_city_which_is_a_city",
             "classified_city_which_is_not_a_city", "city_not_classified_as_city", 
